@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns="http://www.dva.gov.au/EIS/schemas/VPRSClient/getEligibility" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.dva.gov.au/EIS/schemas/VPRSClient/getEligibility" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="getEligibilityRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="CommonHeader" type="CommonHeader"/>
+				<xs:element name="ClientID">
+					<xs:simpleType>
+						<xs:restriction base="xs:string"/>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getEligibilityResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="CommonHeader" type="CommonHeader"/>
+				<xs:element name="Status" type="StatusResponse" minOccurs="1">
+					<xs:annotation>
+						<xs:documentation>The error information if SuccessInd = false</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Eligibility" type="EligibilityType" minOccurs="0" maxOccurs="1">
+					
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="ErrorInfoType">
+		<xs:annotation>
+			<xs:documentation>A structure that details the common error and description for a business exception.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ErrorCode" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The error code.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ErrorSeverity" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The severity of the error.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ErrorDescription" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The description of the error.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StatusResponse">
+		<xs:annotation>
+			<xs:documentation>A structure that details the common error and description for a business exception.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Status" minOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string"/>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ErrorInfo" type="ErrorInfoType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EligibilityType" >
+		<xs:sequence>
+			
+				<xs:element name="EligibilityTypeCode" minOccurs="1">
+					<xs:simpleType>
+						<xs:restriction base="xs:string"/>
+					</xs:simpleType>
+				</xs:element>
+<xs:element name="StartDate" type="xs:string" >
+</xs:element>
+			<xs:element name="EndDate" minOccurs="0" >
+					<xs:simpleType>
+						<xs:restriction base="xs:string"/>
+					</xs:simpleType>
+</xs:element>
+	</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CommonHeader">
+		<xs:sequence>
+		<xs:element maxOccurs="1" minOccurs="1" name="ApplicationID" type="xs:string"/>
+			<xs:element name="TransactionID" type="UUID" minOccurs="0"/>
+	
+			<xs:element name="UserID" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The user that was responsible for the interface being invoked (i.e. pressed 'submit'</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DateTimeStamp" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>The timestamp of the transfer to TIBCO</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+<xs:simpleType name="UUID">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

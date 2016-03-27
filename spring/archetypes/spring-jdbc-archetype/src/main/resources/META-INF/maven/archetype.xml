@@ -1,0 +1,21 @@
+<archetype>
+	<id>spring-jdbc-archetype</id>
+	<sources>
+		<source>src/main/java/dao/JdbcDao.java</source>
+		<source>src/main/java/dao/impl/JdbcDaoImpl.java</source>
+		<source>src/main/java/dao/impl/Person.java</source>
+	</sources>
+	<resources> 
+		<resource>src/main/resources/db.properties</resource>
+		<resource>src/main/resources/context/context.xml</resource>
+	</resources>
+	<testSources>
+		<source>src/test/java/dao/EmbeddedJdbcDaoTest.java</source>
+		<source>src/test/java/dao/ExternalJdbcDaoTest.java</source>
+	</testSources>
+	<testResources>
+		<resource>src/test/resources/context/test-context.xml</resource>
+		<resource>src/test/resources/schema.sql</resource>
+		<resource>src/test/resources/test-data.sql</resource>
+	</testResources>
+</archetype>

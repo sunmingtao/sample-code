@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jms="http://www.springframework.org/schema/jms" xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		                   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		                   http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd
+		                   http://www.springframework.org/schema/jee 
+        				   http://www.springframework.org/schema/jee/spring-jee-3.0.xsd"
+	default-autowire="byName">
+
+	<!-- TODO Rename this file to {jms-service-name}-application-context -->
+	<context:component-scan base-package="au.gov.dva.common.webservices.eligibility.service.impl" />
+    
+	<bean id="myJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<constructor-arg ref="authenticationConnectionFactory" />
+		<property name="defaultDestination" ref="myRequestQueue" />
+		<property name="deliveryPersistent" value="true" />
+		<property name="messageIdEnabled" value="true" />
+		<property name="messageTimestampEnabled" value="true" />
+		<property name="explicitQosEnabled" value="true" />
+	</bean>
+
+</beans>

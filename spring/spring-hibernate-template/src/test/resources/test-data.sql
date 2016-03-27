@@ -1,0 +1,1 @@
+INSERT INTO T_PERSON values (1, 'Mingtao');

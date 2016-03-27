@@ -1,0 +1,168 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.smt.common.spring</groupId>
+	<artifactId>spring-hibernate-common</artifactId>
+	<version>1.0</version>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<org.springframework.version>3.2.0.RELEASE</org.springframework.version>
+		<org.hibernate.version>3.6.9.Final</org.hibernate.version>
+		<hsqldb.version>1.8.0.10</hsqldb.version>
+	</properties>
+	
+
+	<dependencies>
+		<!-- Spring Dependency -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${org.springframework.version}</version>
+			<exclusions>
+				<!-- Exclude Commons Logging in favor of SLF4j -->
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${org.springframework.version}</version>
+			<scope>test</scope>
+			<exclusions>
+				<!-- Exclude slf4j-simple -->
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-simple</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<!-- Hibernate dependency --> 
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${org.hibernate.version}</version>
+		</dependency>
+		<!-- Logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.6.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.6.6</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- JAVA Assist -->
+		<dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.12.0.GA</version>
+		</dependency>
+		
+		<!-- Unit Testing -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8</version>
+			<scope>test</scope>
+		</dependency>
+		
+		<!-- HSQLDB -->
+		<dependency>
+			<groupId>hsqldb</groupId>
+			<artifactId>hsqldb</artifactId>
+			<version>${hsqldb.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<resources>
+    		<resource>
+        		<directory>src/main/resources</directory>
+  				<includes>
+  	    			<include>**/*.*</include>
+        		</includes>
+        		<!-- Allow property replacement, such as ${jdbc.url} in db.properties -->
+        		<filtering>true</filtering>
+     		</resource>
+ 		</resources>
+ 		<testResources>
+    		<testResource>
+        		<directory>src/test/resources</directory>
+  				<includes>
+  	    			<include>**/*.*</include>
+        		</includes>
+        		<!-- Allow property replacement, such as ${jdbc.url} in db.properties -->
+        		<filtering>true</filtering>
+     		</testResource>
+ 		</testResources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+  				<groupId>org.apache.maven.plugins</groupId>
+  				<artifactId>maven-source-plugin</artifactId>
+  				<executions>
+    				<execution>
+      					<id>attach-sources</id>
+      					<goals>
+        					<goal>jar</goal>
+      					</goals>
+    				</execution>
+  				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<configuration>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>true</downloadJavadocs>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.7.1</version>
+			</plugin>
+		</plugins>
+		<extensions>
+      		<extension>
+        		<groupId>org.apache.maven.wagon</groupId>
+        		<artifactId>wagon-ftp</artifactId>
+        		<version>1.0-alpha-6</version>
+      		</extension>
+    	</extensions>
+	</build>
+	
+	<distributionManagement>
+    	<repository>
+      		<id>taotao-ftp</id>
+      		<url>ftp://chanchantaotao.com/public_html/maven</url>
+    	</repository>
+  	</distributionManagement>
+</project>

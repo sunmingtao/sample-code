@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bindings xmlns="http://java.sun.com/xml/ns/jaxb"
+        xmlns:xsi="http://www.w3.org/2000/10/XMLSchema-instance"
+        xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:annox="http://annox.dev.java.net"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/jaxb http://java.sun.com/xml/ns/jaxb/bindingschema_2_0.xsd"
+        extensionBindingPrefixes="xjc annox"
+        version="2.1">
+    <globalBindings>
+        <!-- Mark auto generated classes as Serializable -->
+        <serializable uid="1" />
+
+        <!-- Don't use the default XMLGregorianCalender, use the simpler (and Serializable) java.util.Date -->
+        <javaType name="java.util.Date" xmlType="xs:date"
+              parseMethod="au.gov.dva.common.webservices.adapter.DateAdapter.parseDate"
+              printMethod="au.gov.dva.common.webservices.adapter.DateAdapter.printDate"
+          />
+        <javaType name="java.util.Date" xmlType="xs:dateTime"
+              parseMethod="au.gov.dva.common.webservices.adapter.DateAdapter.parseDateTime"
+              printMethod="au.gov.dva.common.webservices.adapter.DateAdapter.printDateTime"
+          />
+    </globalBindings>
+</bindings>
+

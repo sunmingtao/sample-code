@@ -1,0 +1,26 @@
+<archetype>
+	<id>jms-webservice-archetype</id>
+	<sources>
+		<source>src/main/java/dto/RequestDto.java</source>
+		<source>src/main/java/dto/ResponseDto.java</source>
+		<source>src/main/java/mapper/RequestMapper.java</source>
+		<source>src/main/java/mapper/ResponseMapper.java</source>
+		<source>src/main/java/messagedelegate/AbstractXxxResponseMessageDelegate.java</source>
+		<source>src/main/java/service/XxxService.java</source>
+		<source>src/main/java/service/impl/XxxServiceImpl.java</source>
+	</sources>
+	<resources> 
+		<resource>src/main/xjb/bindings.xjb</resource>
+		<resource>src/main/resources/context/application-context.xml</resource>
+		<resource>src/main/resources/context/sample-jndi-context.xml</resource>
+		<resource>src/main/resources/schemas/getEligibility.xsd</resource>
+	</resources>
+	<testSources>
+		<source>src/test/java/context/ContextTest.java</source>
+	</testSources>
+	<testResources>
+		<resource>src/test/resources/context/local-properties-config.xml</resource>
+		<resource>src/test/resources/context/test-jndi-context.xml</resource>
+		<resource>src/test/resources/properties/jms.properties</resource>
+	</testResources>
+</archetype>

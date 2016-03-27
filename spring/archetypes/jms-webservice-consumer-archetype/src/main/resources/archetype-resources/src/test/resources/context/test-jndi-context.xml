@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jms="http://www.springframework.org/schema/jms"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		                   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		                   http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-3.0.xsd">
+
+    <!-- Connection factories -->
+    <bean id="jmsConnectionFactory" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiTemplate" ref="jmsConnectionJndiTemplate" />
+        <property name="jndiName" value="FTQueueConnectionFactory" />
+    </bean>
+
+    <bean id="cachingConnectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
+        <constructor-arg ref="authenticationConnectionFactory" />
+        <property name="reconnectOnException" value="true" />
+    </bean>
+
+    <bean id="authenticationConnectionFactory"
+        class="org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter">
+        <property name="targetConnectionFactory" ref="jmsConnectionFactory" />
+        <property name="username" value="admin" />
+        <property name="password" value="" />
+    </bean>
+ 
+ 	<!-- TODO: Replace bean id and the value of jndi name -->
+    <bean id="myRequestQueue" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiTemplate" ref="jmsConnectionJndiTemplate" />
+        <property name="jndiName" value="EIS.VPRS.Eligibility.request.q" />
+    </bean>
+
+	<!-- TODO: Replace bean id and value of jndi name -->
+    <bean id="myResponseQueue" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiTemplate" ref="jmsConnectionJndiTemplate" />
+        <property name="jndiName" value="EIS.VPRS.Eligibility.response.q" />
+    </bean>
+
+	 <bean id="jmsConnectionJndiTemplate" class="org.springframework.jndi.JndiTemplate">
+        <property name="environment">
+            <props>
+                <prop key="java.naming.factory.initial">${jms.factory.initial}</prop>
+                <prop key="java.naming.provider.url">${jms.provider.url}</prop>
+                <prop key="java.naming.factory.url.pkgs">${jms.factory.pckgs}</prop>
+                <prop key="java.naming.security.principal">${jms.username}</prop>
+                <prop key="java.naming.security.credentials">${jms.password}</prop>
+            </props>
+        </property>
+    </bean>
+</beans>

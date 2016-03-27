@@ -1,0 +1,15 @@
+<archetype>
+	<id>spring-quickstart-archetype</id>
+	<sources>
+		<source>src/main/java/Bean.java</source>
+	</sources>
+	<resources> 
+		<resource>src/main/resources/context/context.xml</resource>
+	</resources>
+	<testSources>
+		<source>src/test/java/BeanTest.java</source>
+	</testSources>
+	<testResources> 
+		<resource>src/test/resources/context/context.xml</resource>
+	</testResources>
+</archetype>

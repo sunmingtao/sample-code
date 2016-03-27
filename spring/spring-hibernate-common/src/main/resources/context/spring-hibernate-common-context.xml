@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jms="http://www.springframework.org/schema/jms" xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		                   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		                   http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+		                   http://www.springframework.org/schema/jee 
+        				   http://www.springframework.org/schema/jee/spring-jee.xsd"
+	default-autowire="byName">
+
+	<context:component-scan base-package="com.smt.common.spring" />
+	
+	<!-- Hibernate session factory -->
+	<bean id="parentSessionFactory" abstract="true">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation">
+            <value>classpath:hibernate.cfg.xml</value>
+        </property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${db.dialect}</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="parentDataSource" abstract="true">
+		<property name="driverClassName" value="${db.driver}" />
+		<property name="url" value="${db.url}" />
+		<property name="username" value="${db.username}" />
+		<property name="password" value="${db.password}" />
+	</bean>
+	
+	<bean id="parentDao" abstract="true" >
+   		<property name="sessionFactory" ref="sessionFactory" />
+   </bean>
+
+</beans>
