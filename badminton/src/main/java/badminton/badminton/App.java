@@ -1,7 +1,7 @@
 package badminton.badminton;
 
 /**
- * Hello world!
+ * Minor change
  */
 public class App {
 
