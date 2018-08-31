@@ -1,4 +1,5 @@
 import numpy as np
+import re
 
 '''Convert 'ABC' to [[1,0,0],[0,1,0],[0,0,1]] '''
 def string_to_one_hot_vector(string, known_chars='ABCDEFG'):
@@ -16,6 +17,14 @@ def replace_char_in_string(string):
     new_char_list = sorted(set(string) - set(old_char)) # sorted list
     new_char = np.random.choice(new_char_list)
     return string[:index]+ new_char + string[index+1:]
+
+'''Replace 
+Example: replace_regex_in_string('{abc}', r'[{}]', '') 
+'''
+def replace_regex_in_string(string, regex, to_replace):
+    return re.sub(regex, to_replace, string)
+
+
 
 
 
