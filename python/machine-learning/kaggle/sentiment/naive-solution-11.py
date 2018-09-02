@@ -1,6 +1,6 @@
 '''Change log
 Based on version 3
-Add CNN below LSTM， doesn't improve
+Minor refactor. Expect to reproduce the result of version 3
 '''
 import numpy as np
 import tensorflow as tf
@@ -134,10 +134,8 @@ train_set, validation_set = train_test_split(train_df, test_size=0.25, random_st
 n_steps = longest_phrase_size
 n_neurons = 300
 n_outputs = 5
-n_epochs = 10
-
-
-
+n_epochs = 8
+version = '011'
 
 print('Define model...')
 
@@ -145,21 +143,10 @@ print('Define model...')
 inputs = Input(shape=(n_steps,), name="inputs")
 embedding_layer = Embedding(input_dim=vocabulary_size, output_dim=n_neurons, name='embedding')
 embedding_output = embedding_layer(inputs)
-lstm_layer = LSTM(n_neurons, dropout=0.5, recurrent_dropout=0.5, return_sequences=True, name='lstm')
+lstm_layer = LSTM(n_neurons, dropout=0.5, recurrent_dropout=0.5, name='lstm')
 lstm_output = lstm_layer(embedding_output)
-conv_layer = Conv1D(32, kernel_size=3, name='conv')
-conv_output = conv_layer(lstm_output)
-avg_pool_layer = GlobalAveragePooling1D(name='avg_pool')
-avg_pool_output = avg_pool_layer(conv_output)
-
-max_pool_layer = GlobalMaxPooling1D(name='max_pool')
-max_pool_output = max_pool_layer(conv_output)
-
-concat_layer = Concatenate(name='concat')
-concat_output = concat_layer([avg_pool_output, max_pool_output])
-
 dense_layer = Dense(n_outputs, activation='softmax', name='dense')
-outputs = dense_layer(concat_output)
+outputs = dense_layer(lstm_output)
 
 model = Model(inputs=inputs, outputs=outputs)
 model.summary()
@@ -174,8 +161,6 @@ validation_steps = len(validation_set) // BATCH_SIZE
 model.fit_generator(training_data_generator(train_set), steps_per_epoch=train_steps, epochs=n_epochs, validation_data=training_data_generator(validation_set), validation_steps=validation_steps, verbose=1, callbacks=[checkpoint])
 
 print('End training')
-
-version = '010'
 
 model.load_weights(weight_path)
 model.save('sentiment_model_{}.h5'.format(version))
@@ -197,3 +182,4 @@ for index, value in test_df.iterrows():
 sub_pd = pd.DataFrame(output)
 sub_pd.columns = ['PhraseId','Sentiment']
 sub_pd.to_csv('sentiment-{}.csv'.format(version), index=False)
+print('Finished')
