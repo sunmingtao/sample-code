@@ -168,6 +168,7 @@ decoder_outputs = decoder_dense_layer(decoder_lstm_outputs)
 
 # Define the model that will turn
 model = Model(inputs=[encoder_inputs, decoder_inputs], outputs=decoder_outputs)
+model.summary()
 
 # Run training
 model.compile(optimizer='rmsprop', loss='categorical_crossentropy', metrics=['accuracy'])

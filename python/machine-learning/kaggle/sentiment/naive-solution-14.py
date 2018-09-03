@@ -1,6 +1,5 @@
 '''Change log
-Based on version 11
-Bidirectional LSTM, doesn't improve score
+Based on version 13, loss='binary_crossentropy' instead of 'categorical_crossentropy', doesn't improve
 '''
 import numpy as np
 import tensorflow as tf
@@ -10,13 +9,14 @@ import os
 import sys
 import collections
 from keras.models import Sequential
-from keras.layers import Dense, Embedding, LSTM, Conv1D, Input, GlobalAveragePooling1D, GlobalMaxPooling1D, Concatenate, Bidirectional
+from keras.layers import Dense, Embedding, LSTM, Conv1D, Input, GlobalAveragePooling1D, GlobalMaxPooling1D, Concatenate
 from keras.preprocessing import sequence
 from sklearn.model_selection import train_test_split
 from keras.utils.np_utils import to_categorical
 from keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
 from keras import models
 from keras.models import Model
+from nltk.tokenize import word_tokenize
 
 
 
@@ -48,11 +48,12 @@ all_words = [word.strip() for word in all_words]
 all_words = [word for word in all_words if word[0].isalpha()]
 
 def preprocess_phrase(phrase):
-    phrase_list = phrase.lower().split()
+
+    phrase_list = word_tokenize(phrase.lower())
     phrase_list = [phrase.strip() for phrase in phrase_list] #Trim leading and trailing spaces
-    phrase_list = [phrase for phrase in phrase_list if phrase[0].isalpha()] #Retain only alpha words
     return phrase_list
 
+preprocess_phrase('is also good for the gander , some of which occasionally amuses but none of which amounts to much of a story .')
 
 
 # Create vocabulary dictionary
@@ -135,7 +136,7 @@ n_steps = longest_phrase_size
 n_neurons = 300
 n_outputs = 5
 n_epochs = 10
-version = '012'
+version = '014'
 
 print('Define model...')
 
@@ -143,7 +144,7 @@ print('Define model...')
 inputs = Input(shape=(n_steps,), name="inputs")
 embedding_layer = Embedding(input_dim=vocabulary_size, output_dim=n_neurons, name='embedding')
 embedding_output = embedding_layer(inputs)
-lstm_layer = Bidirectional(LSTM(n_neurons, dropout=0.5, recurrent_dropout=0.5, name='lstm'))
+lstm_layer = LSTM(n_neurons, dropout=0.5, recurrent_dropout=0.5, name='lstm')
 lstm_output = lstm_layer(embedding_output)
 dense_layer = Dense(n_outputs, activation='softmax', name='dense')
 outputs = dense_layer(lstm_output)
@@ -152,12 +153,14 @@ model = Model(inputs=inputs, outputs=outputs)
 model.summary()
 
 
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 weight_path="{}_weights.best.hdf5".format('sentiment')
 checkpoint = ModelCheckpoint(weight_path, monitor='val_acc', verbose=1, save_best_only=True, mode='max', save_weights_only=True)
 
 train_steps = len(train_set) // BATCH_SIZE
 validation_steps = len(validation_set) // BATCH_SIZE
+#train_steps = 2
+#validation_steps = 2
 model.fit_generator(training_data_generator(train_set), steps_per_epoch=train_steps, epochs=n_epochs, validation_data=training_data_generator(validation_set), validation_steps=validation_steps, verbose=1, callbacks=[checkpoint])
 
 print('End training')
