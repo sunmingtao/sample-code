@@ -1,5 +1,5 @@
 '''Change log
-Based on version 13, learning rate 1e-4, doesn't improve
+Based on version 13
 '''
 import numpy as np
 import tensorflow as tf
@@ -17,7 +17,6 @@ from keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
 from keras import models
 from keras.models import Model
 from nltk.tokenize import word_tokenize
-from keras.optimizers import Adam
 
 
 
@@ -137,7 +136,7 @@ n_steps = longest_phrase_size
 n_neurons = 300
 n_outputs = 5
 n_epochs = 10
-version = '014'
+version = '016'
 
 print('Define model...')
 
@@ -147,14 +146,16 @@ embedding_layer = Embedding(input_dim=vocabulary_size, output_dim=n_neurons, nam
 embedding_output = embedding_layer(inputs)
 lstm_layer = LSTM(n_neurons, dropout=0.5, recurrent_dropout=0.5, name='lstm')
 lstm_output = lstm_layer(embedding_output)
-dense_layer = Dense(n_outputs, activation='softmax', name='dense')
-outputs = dense_layer(lstm_output)
+dense_layer1 = Dense(128, name='dense1')
+dense1_output = dense_layer1(lstm_output)
+dense_layer2 = Dense(n_outputs, activation='softmax', name='dense2')
+outputs = dense_layer2(dense1_output)
 
 model = Model(inputs=inputs, outputs=outputs)
 model.summary()
 
 
-model.compile(loss='categorical_crossentropy', optimizer=Adam(lr=1e-4), metrics=['accuracy'])
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 weight_path="{}_weights.best.hdf5".format('sentiment')
 checkpoint = ModelCheckpoint(weight_path, monitor='val_acc', verbose=1, save_best_only=True, mode='max', save_weights_only=True)
 
