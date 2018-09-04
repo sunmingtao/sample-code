@@ -1,6 +1,5 @@
 '''Change log
-Based on version 13
-0.64354
+Based on version 16,
 '''
 import numpy as np
 import tensorflow as tf
@@ -149,8 +148,10 @@ lstm_layer = LSTM(n_neurons, dropout=0.5, recurrent_dropout=0.5, name='lstm')
 lstm_output = lstm_layer(embedding_output)
 dense_layer1 = Dense(128, name='dense1')
 dense1_output = dense_layer1(lstm_output)
-dense_layer2 = Dense(n_outputs, activation='softmax', name='dense2')
-outputs = dense_layer2(dense1_output)
+dense_layer2 = Dense(64, name='dense2')
+dense2_output = dense_layer2(dense1_output)
+dense_layer3 = Dense(n_outputs, activation='softmax', name='dense3')
+outputs = dense_layer3(dense2_output)
 
 model = Model(inputs=inputs, outputs=outputs)
 model.summary()
