@@ -7,7 +7,7 @@ env = gym.make("MsPacman-v0")
 
 mspacman_color = 210 + 164 + 74
 n_outputs = env.action_space.n
-max_memory_capacity = 2000
+max_memory_capacity = 10000
 batch_size = 32
 n_epoches = 1000
 n_max_steps = 1000
@@ -20,7 +20,7 @@ input_width = 80
 input_channels = 1
 n_hidden_in = 64 * 11 * 10  # conv3 has 64 maps of 11x10 each
 n_hidden = 512
-
+iteration = 0
 
 def preprocess_observation(obs):
     img = obs[1:176:2, ::2] # crop and downsize
@@ -48,10 +48,6 @@ class Memory:
     def sample(self, batch_size=batch_size):
         indexes = np.random.permutation(self.length)[:batch_size]
         return self.memory[indexes]
-
-
-
-
 
 
 def q_network(state_tensor):
@@ -93,13 +89,13 @@ def act(state_val):
 
 
 def train(training_data):
-    print ('training....')
     global epsilon
     for state, action, reward, next_state, done in training_data:
         next_state_q_val = sess.run(q_tensor, feed_dict={state_tensor: reshape_state(next_state)})
-        label_q_val = reward
         if not done:
-            label_q_val += discount_rate * np.amax(next_state_q_val)
+            label_q_val = reward + discount_rate * np.amax(next_state_q_val)
+        else:
+            label_q_val = -500
         state_q_val = sess.run(q_tensor, feed_dict={state_tensor: reshape_state(state)})
         state_q_val[0][action] = label_q_val
         _, loss_val = sess.run([training_op, loss], feed_dict={state_tensor: reshape_state(state), labels_tensor: state_q_val})
@@ -122,6 +118,7 @@ for game in range(n_epoches):
     total_reward = 0
     for step in range(n_max_steps):
         #env.render()
+        iteration += 1
         action = act(state)
         next_state, reward, done, _ = env.step(action)
         next_state = preprocess_observation(next_state)
@@ -131,14 +128,10 @@ for game in range(n_epoches):
         if done:
             print('Game {}, reward {}, Epsilon {:.2}'.format(game, total_reward, epsilon))
             break
-        if memory.length >= batch_size:
+        if iteration >= 5000 and iteration % 4 == 0:
             data = memory.sample()
             train(data)
     game_rewards.append(total_reward)
     if total_reward > max_reward:
         max_reward = total_reward
     print('Last 20 games average reward is {:.4}. Max reward is {}'.format(last_20_reward_average(game_rewards), max_reward))
-
-
-
-
