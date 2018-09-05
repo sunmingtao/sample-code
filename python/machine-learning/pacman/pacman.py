@@ -21,6 +21,7 @@ def reset_graph(seed=42):
     np.random.seed(seed)
 
 env = gym.make("MsPacman-v0")
+env.render()
 obs = env.reset()
 obs.shape
 
