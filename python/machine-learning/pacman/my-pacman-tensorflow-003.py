@@ -1,3 +1,4 @@
+'''Huber loss'''
 import gym
 import numpy as np
 import tensorflow as tf
@@ -22,7 +23,7 @@ n_hidden_in = 64 * 11 * 10  # conv3 has 64 maps of 11x10 each
 n_hidden = 512
 iteration = 0
 skip_start = 90  # Skip the start of every game (it's just waiting time).
-checkpoint_path = "./machine-learning/pacman/my_pacman-tensorflow-temp.ckpt"
+checkpoint_path = "./machine-learning/pacman/my_pacman-tensorflow-003.ckpt"
 
 def preprocess_observation(obs):
     img = obs[1:176:2, ::2] # crop and downsize
@@ -65,10 +66,10 @@ def q_network(state_tensor):
 
 tf.reset_default_graph()
 
-state_tensor = tf.placeholder(tf.float32, shape=[None, input_height, input_width, input_channels])
+state_tensor = tf.placeholder(tf.float32, shape=(None, input_height, input_width, input_channels))
 q_tensor = q_network(state_tensor)
 labels_tensor = tf.placeholder(dtype=tf.float32, shape=(None, n_outputs))
-loss = tf.reduce_mean(tf.square(labels_tensor - q_tensor))
+loss = tf.losses.huber_loss(labels=labels_tensor, predictions=q_tensor)
 optimizer = tf.train.AdamOptimizer()
 training_op = optimizer.minimize(loss)
 saver = tf.train.Saver()

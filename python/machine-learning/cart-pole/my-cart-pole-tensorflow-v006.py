@@ -1,5 +1,5 @@
 '''
-Based on version 4, vectorized training
+Based on version 5
 '''
 import gym
 import matplotlib
@@ -11,14 +11,15 @@ import os
 
 
 
-env = gym.make("CartPole-v1")
-env._max_episodes=5000
+env = gym.make("CartPole-v0")
+env._max_episode_steps = 5000
+
 
 n_epoches = 5000
 n_outputs = env.action_space.n
 epsilon = 1.0
 epsilon_min = 0.01
-n_max_steps = 500
+n_max_steps = 5000
 batch_size = 32
 max_memory_capacity = 2000
 discount_rate = 0.95
@@ -61,7 +62,7 @@ q_tensor = q_network(state_tensor)
 
 labels_tensor = tf.placeholder(dtype=tf.float32, shape=(None, 2))
 loss = tf.reduce_mean(tf.square(labels_tensor - q_tensor))
-optimizer = tf.train.AdamOptimizer(learning_rate=0.0001)
+optimizer = tf.train.AdamOptimizer(learning_rate=0.001)
 training_op = optimizer.minimize(loss)
 
 init = tf.global_variables_initializer()
