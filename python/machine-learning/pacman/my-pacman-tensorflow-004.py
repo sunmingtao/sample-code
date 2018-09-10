@@ -1,5 +1,6 @@
 '''Huber loss
-after 4000 games training, average score fluctuates around 400
+Based on version 3
+
 '''
 import gym
 import numpy as np
@@ -151,3 +152,19 @@ for game in range(n_epoches):
     if (game + 1) % 10 == 0:  # Save every 10 games
         saver.save(sess, checkpoint_path)
     print('Last 30 games average reward is {:.4}. Max reward is {}'.format(last_n_reward_average(30, game_rewards), max_reward))
+
+
+# Test
+from keras.losses import categorical_crossentropy, binary_crossentropy
+
+def my_loss():
+    return lambda y_true, y_pred: y_pred
+
+import tensorflow as tf
+import numpy as np
+y_true = tf.Variable([[[1.,2.],[3.,4.]]])
+y_pred= tf.Variable([[[1.,2.],[3.,4.]]])
+loss = binary_crossentropy(y_true, y_pred)
+sess = tf.InteractiveSession()
+sess.run(tf.initialize_all_variables())
+loss_val = sess.run(loss)
