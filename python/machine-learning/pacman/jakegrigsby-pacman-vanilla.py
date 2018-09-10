@@ -78,7 +78,7 @@ dqn.compile(Adam(lr=.00025), metrics=['mae'])
 
 folder_path = './machine-learning/pacman/'
 
-mode = 'test'
+mode = 'train'
 
 if mode == 'train':
     weights_filename = folder_path + 'dqn_{}_weights.h5f'.format(env_name)
