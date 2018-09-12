@@ -1,5 +1,10 @@
 ## 2018.9.12 
 
+### General observation
+
+Max number of steps of an episode is 200 in the simulation environment. Random strategy has a result of -762.
+
+
 ### my-taxi-keras-deep-q Run 1 
 
 Model: Input 500 -> Dense 128 -> Dense 32 -> Dense 6\
