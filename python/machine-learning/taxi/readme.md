@@ -1,6 +1,6 @@
 ### Class Q learning
 
-Column: Gamma, Row: Learning rate, Episode number = 100k
+Column: Gamma, Row: Learning rate, Average reward per episode after 100K episodes
 
 |  |0.99|0.9|0.8|0.5|0.4|0.3|0.2|0.1|0.05|0.01|
 | -| -  | - | - | - | - | - | - | - | -  | -  |
