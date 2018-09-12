@@ -1,6 +1,11 @@
 from __future__ import division
+
+import os
+
+
 import argparse
 import sys
+from memory import PrioritizedMemory
 from PIL import Image
 import numpy as np
 import gym
@@ -10,11 +15,13 @@ from keras.optimizers import Adam
 import keras.backend as K
 from rl.agents.dqn import DQNAgent
 from rl.policy import EpsGreedyQPolicy, LinearAnnealedPolicy
-from rl.memory import SequentialMemory
+
 from rl.core import Processor
 from rl.callbacks import TrainEpisodeLogger, ModelIntervalCheckpoint
 
 
+#We downsize the atari frame to 84 x 84 and feed the model 4 frames at a time for
+#a sense of direction and speed.
 INPUT_SHAPE = (84, 84)
 WINDOW_LENGTH = 4
 
@@ -35,16 +42,9 @@ class AtariProcessor(Processor):
     def process_reward(self, reward):
         return np.clip(reward, -1., 1.)
 
-'''
-parser = argparse.ArgumentParser()
-parser.add_argument('--mode', choices=['train', 'test'], default='train')
-parser.add_argument('--env-name', type=str, default='MsPacmanDeterministic-v4')
-parser.add_argument('--weights', type=str, default=None)
-args = parser.parse_args()
-'''
 
-env_name = 'MsPacman-v0'
 # Get the environment and extract the number of actions.
+env_name = 'MsPacman-v0'
 env = gym.make(env_name)
 np.random.seed(231)
 env.seed(123)
@@ -53,42 +53,49 @@ print("NUMBER OF ACTIONS: " + str(nb_actions))
 
 #Standard DQN model architecture.
 input_shape = (WINDOW_LENGTH, INPUT_SHAPE[0], INPUT_SHAPE[1])
-frame = Input(shape=(input_shape))
+frame = Input(shape=input_shape)
 cv1 = Convolution2D(32, kernel_size=(8,8), strides=4, activation='relu', data_format='channels_first')(frame)
 cv2 = Convolution2D(64, kernel_size=(4,4), strides=2, activation='relu', data_format='channels_first')(cv1)
 cv3 = Convolution2D(64, kernel_size=(3,3), strides=1, activation='relu', data_format='channels_first')(cv2)
-dense= Flatten()(cv3)
+dense = Flatten()(cv3)
 dense = Dense(512, activation='relu')(dense)
 buttons = Dense(nb_actions, activation='linear')(dense)
 model = Model(inputs=frame,outputs=buttons)
 print(model.summary())
 
-memory = SequentialMemory(limit=1000000, window_length=WINDOW_LENGTH)
+#PER
+memory = PrioritizedMemory(limit=1000000, alpha=.6, start_beta=.4, end_beta=1., steps_annealed=10000000, window_length=WINDOW_LENGTH)
 
 processor = AtariProcessor()
 
-policy = policy = LinearAnnealedPolicy(EpsGreedyQPolicy(), attr='eps', value_max=1., value_min=.1, value_test=.05, nb_steps=1250000)
+policy = LinearAnnealedPolicy(EpsGreedyQPolicy(), attr='eps', value_max=1., value_min=.1, value_test=.05, nb_steps=1250000)
 
 
 dqn = DQNAgent(model=model, nb_actions=nb_actions, policy=policy, memory=memory,
-               processor=processor, enable_double_dqn=False, enable_dueling_network=False, nb_steps_warmup=1000, gamma=.99, target_model_update=10000,
+               processor=processor, enable_double_dqn=True, enable_dueling_network=True, nb_steps_warmup=1000, gamma=.99, target_model_update=10000,
                train_interval=4, delta_clip=1.)
 
-dqn.compile(Adam(lr=.00025), metrics=['mae'])
+#Prioritized Memories typically use lower learning rates
+dqn.compile(Adam(lr=.00025/4), metrics=['mae'])
 
-folder_path = './machine-learning/pacman/'
+folder_path = './'
 
-mode = 'test'
+mode = 'train'
 
 if mode == 'train':
-    weights_filename = folder_path + 'dqn_{}_weights.h5f'.format(env_name)
-    checkpoint_weights_filename = folder_path + 'dqn_' + env_name + '_weights_{step}.h5f'
-    log_filename = folder_path + 'dqn_' + env_name + '_REWARD_DATA.txt'
+    weights_filename = folder_path + 'pdd_dqn_{}_weights.h5f'.format(env_name)
+    checkpoint_weights_filename = folder_path + 'pdd_dqn_' + env_name + '_weights_{step}.h5f'
+    log_filename = folder_path + 'pdd_dqn_' + env_name + '_REWARD_DATA.txt'
     callbacks = [ModelIntervalCheckpoint(checkpoint_weights_filename, interval=500000)]
     callbacks += [TrainEpisodeLogger()]
-    dqn.fit(env, callbacks=callbacks, nb_steps=10000000, verbose=1, nb_max_episode_steps=20000)
+    dqn.fit(env, callbacks=callbacks, nb_steps=10000000, verbose=0, nb_max_episode_steps=20000)
+
 
 elif mode == 'test':
-    weights_filename = folder_path + 'dqn_MsPacman-v0_weights_10000000.h5f'
+    weights_filename = folder_path + 'pdd_dqn_MsPacmanDeterministic-v4_weights_10000000.h5f'
     dqn.load_weights(weights_filename)
-    dqn.test(env, nb_episodes=20, visualize=False, nb_max_start_steps=80)
+    dqn.test(env, nb_episodes=10, visualize=True, nb_max_start_steps=80)
+
+
+
+
