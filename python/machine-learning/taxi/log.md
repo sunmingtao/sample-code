@@ -1,6 +1,6 @@
 ## 2018.9.12 
 
-my-taxi-keras-deep-q Run 1 
+### my-taxi-keras-deep-q Run 1 
 
 Model: Input 500 -> Dense 128 -> Dense 32 -> Dense 6\
 learning_rate = 0.001\
@@ -23,11 +23,27 @@ Episode 1258 Reward=-100 Epsilon=0.0118\
 Episode 1259 Reward=-109 Epsilon=0.0118\
 Episode 1260 Reward=-100 Epsilon=0.0118
 
-my-taxi-keras-deep-q Run 2 
+### my-taxi-keras-deep-q Run 2 
 
-Changes:
+Changes:\
 Change loss function to tf.losses.huber_loss
 
-Observation:
+Observation:\
+Same as Run 1
+
+Episode 994 Reward=-100 Epsilon=0.0169\
+Episode 995 Reward=-109 Epsilon=0.0168\
+Episode 996 Reward=-100 Epsilon=0.0168\
+Episode 997 Reward=-109 Epsilon=0.0168\
+Episode 998 Reward=-109 Epsilon=0.0167\
+Episode 999 Reward=-100 Epsilon=0.0167\
+
+I realise the agent never breaks -100 because the max steps number is set to 100 and the agent never learns to drop the passenger to the destination. All it learns is don't dropup and pickup the passenger at the wrong location
+
+### my-taxi-keras-deep-q Run 3
+
+Changes:\
+Change n_max_steps = 150
+
 
 
