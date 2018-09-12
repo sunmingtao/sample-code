@@ -50,5 +50,26 @@ I realise the agent never breaks -100 because the max steps number is set to 100
 Changes:\
 Change n_max_steps = 150
 
+Observation:
 
+As expected, the reward stucks at -150
+
+Episode 991 Reward=-159 Epsilon=0.0170\
+Episode 992 Reward=-150 Epsilon=0.0169\
+Episode 993 Reward=-150 Epsilon=0.0169\
+Episode 994 Reward=-150 Epsilon=0.0169\
+Episode 995 Reward=-159 Epsilon=0.0168\
+Episode 996 Reward=-150 Epsilon=0.0168\
+Episode 997 Reward=-159 Epsilon=0.0168\
+Episode 998 Reward=-159 Epsilon=0.0167\
+Episode 999 Reward=-150 Epsilon=0.0167
+
+## 2018.9.12 
+
+### my-taxi-keras-deep-q Run 4
+
+Changes:\
+Change n_max_steps = 200
+
+Observation:
 
