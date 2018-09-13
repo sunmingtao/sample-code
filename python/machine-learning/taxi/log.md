@@ -147,6 +147,6 @@ n_target_model_update_every_steps=300
 
 Observation:
 
-Better than Run 7. Close to Run 6. But using fixed target doesn't seem to help reduce the variance. 
+Better than Run 7. Close to Run 6. Seems to help reduce the variance. 
 
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-8.png)
