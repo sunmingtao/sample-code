@@ -147,6 +147,14 @@ n_target_model_update_every_steps=300
 
 Observation:
 
-Better than Run 7. Close to Run 6. Seems to help reduce the variance. 
+Better than Run 7. Close to Run 6. Doesn't seem to help reduce the variance (Compared to Run 5)
 
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-8.png)
+
+### my-taxi-keras-deep-q-memory Run 9
+
+Based on Run 5, train 2000 episode
+
+### my-taxi-keras-deep-q-memory Run 10
+
+Based on Run 8, train 2000 episode
