@@ -126,4 +126,4 @@ Observation:
 
 Achieved similar result as run 5 but with larger variance. 
 
-
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-6.png)
