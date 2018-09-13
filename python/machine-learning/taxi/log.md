@@ -86,3 +86,26 @@ Episode 997 Reward=-209 Epsilon=0.0168\
 Episode 998 Reward=-227 Epsilon=0.0167\
 Episode 999 Reward=-200 Epsilon=0.0167\
 Best reward is -57
+
+### my-taxi-keras-deep-q-memory Run 5
+
+Use dequeue memory to store the experience, and train the experience in batch
+
+memory_capacity = 10000
+BATCH_SIZE = 32
+n_warm_up_episode = 10
+
+Achieved some good results after 1000 episodes of training
+
+Episode 990 Reward=14 Epsilon=0.0170\
+Episode 991 Reward=7 Epsilon=0.0170\
+Episode 992 Reward=8 Epsilon=0.0169\
+Episode 993 Reward=8 Epsilon=0.0169\
+Episode 994 Reward=11 Epsilon=0.0169\
+Episode 995 Reward=4 Epsilon=0.0168\
+Episode 996 Reward=8 Epsilon=0.0168\
+Episode 997 Reward=14 Epsilon=0.0168\
+Episode 998 Reward=9 Epsilon=0.0167\
+Episode 999 Reward=9 Epsilon=0.0167\
+Best reward is 15
+
