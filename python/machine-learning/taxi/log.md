@@ -155,6 +155,6 @@ Better than Run 7. Close to Run 6. Doesn't seem to help reduce the variance (Com
 
 Based on Run 5, train 2000 episode
 
-### my-taxi-keras-deep-q-memory Run 10
+### my-taxi-keras-deep-q-memory-fixed-target Run 10
 
 Based on Run 8, train 2000 episode
