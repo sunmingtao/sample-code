@@ -6,6 +6,11 @@ import numpy as np
 import tensorflow as tf
 import os
 
+
+import sys
+
+print(os.listdir('.'))
+
 env = gym.make("MsPacman-v0")
 
 mspacman_color = 210 + 164 + 74
@@ -25,7 +30,7 @@ n_hidden_in = 64 * 11 * 10  # conv3 has 64 maps of 11x10 each
 n_hidden = 512
 iteration = 0
 skip_start = 90  # Skip the start of every game (it's just waiting time).
-checkpoint_path = "./machine-learning/pacman/my_pacman-tensorflow-003.ckpt"
+checkpoint_path = "./my_pacman-tensorflow-003.ckpt"
 
 def preprocess_observation(obs):
     img = obs[1:176:2, ::2] # crop and downsize
