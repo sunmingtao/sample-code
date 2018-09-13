@@ -109,4 +109,4 @@ Episode 998 Reward=9 Epsilon=0.0167\
 Episode 999 Reward=9 Epsilon=0.0167\
 Best reward is 15
 
-![alt text](http://url/to/img.png)
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-5.png)
