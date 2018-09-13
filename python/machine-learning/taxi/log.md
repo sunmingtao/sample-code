@@ -98,6 +98,8 @@ memory_capacity = 10000\
 BATCH_SIZE = 32\
 n_warm_up_episode = 10\
 
+Observation:
+
 Achieved some good results after 1000 episodes of training
 
 Episode 990 Reward=14 Epsilon=0.0170\
@@ -113,3 +115,15 @@ Episode 999 Reward=9 Epsilon=0.0167\
 Best reward is 15
 
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-5.png)
+
+### my-taxi-keras-deep-q-memory-fixed-target Run 6
+
+Use another target model to calculate the new state's q value
+
+n_target_model_update_every_steps=1000
+
+Observation:
+
+Achieved similar result as run 5 but with larger variance. 
+
+
