@@ -64,7 +64,7 @@ Episode 997 Reward=-159 Epsilon=0.0168\
 Episode 998 Reward=-159 Epsilon=0.0167\
 Episode 999 Reward=-150 Epsilon=0.0167
 
-## 2018.9.12 
+## 2018.9.13 
 
 ### my-taxi-keras-deep-q Run 4
 
