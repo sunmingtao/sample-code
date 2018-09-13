@@ -87,6 +87,9 @@ Episode 998 Reward=-227 Epsilon=0.0167\
 Episode 999 Reward=-200 Epsilon=0.0167\
 Best reward is -57
 
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-4.png)
+
 ### my-taxi-keras-deep-q-memory Run 5
 
 Use dequeue memory to store the experience, and train the experience in batch
