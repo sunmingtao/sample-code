@@ -137,6 +137,9 @@ Observation:
 
 It's worse than run 6. Obviously target model should be updated more frequently. 
 
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-7.png)
+
+
 ### my-taxi-keras-deep-q-memory-fixed-target Run 8
 
 Changes:\
@@ -145,3 +148,5 @@ n_target_model_update_every_steps=300
 Observation:
 
 Better than Run 7. Close to Run 6. But using fixed target doesn't seem to help reduce the variance. 
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-8.png)
