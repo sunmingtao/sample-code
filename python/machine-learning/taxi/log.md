@@ -161,8 +161,10 @@ Based on Run 5, train 2000 episode
 
 Based on Run 8, train 2000 episode
 
-![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taix-10.png)
-
 Observation:
 
 Fixed target seems to be slightly better than no fixed target
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taix-10.png)
+
+
