@@ -91,9 +91,9 @@ Best reward is -57
 
 Use dequeue memory to store the experience, and train the experience in batch
 
-memory_capacity = 10000
-BATCH_SIZE = 32
-n_warm_up_episode = 10
+memory_capacity = 10000\
+BATCH_SIZE = 32\
+n_warm_up_episode = 10\
 
 Achieved some good results after 1000 episodes of training
 
