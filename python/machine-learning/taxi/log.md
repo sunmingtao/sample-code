@@ -73,3 +73,16 @@ Change n_max_steps = 200
 
 Observation:
 
+Once again, the agent can't learn much beyond not picking up/dropping off passenger illegally. The best reward obtained was -57 at the exploration period. 
+
+Episode 232 Reward=-57 Epsilon=0.3204\
+...\
+Episode 992 Reward=-218 Epsilon=0.0169\
+Episode 993 Reward=-209 Epsilon=0.0169\
+Episode 994 Reward=-227 Epsilon=0.0169\
+Episode 995 Reward=-209 Epsilon=0.0168\
+Episode 996 Reward=-200 Epsilon=0.0168\
+Episode 997 Reward=-209 Epsilon=0.0168\
+Episode 998 Reward=-227 Epsilon=0.0167\
+Episode 999 Reward=-200 Epsilon=0.0167\
+Best reward is -57
