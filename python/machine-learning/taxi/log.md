@@ -167,4 +167,20 @@ Fixed target seems to be slightly better than no fixed target
 
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taix-10.png)
 
+## 2018.9.14
 
+### my-taxi-keras-deep-q-memory Run 11
+
+Based on Run 9, change learning rate from 0.001 to 0.01
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taix-11.png)
+
+### my-taxi-keras-deep-q-memory-fixed-target Run 12
+
+Based on Run 10, change learning rate from 0.001 to 0.01
+
+Oberservation:
+
+The result is abysmal. Even worse than the no memory version.  
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taix-12.png)
