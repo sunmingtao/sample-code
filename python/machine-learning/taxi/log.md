@@ -187,15 +187,16 @@ The result is abysmal. Even worse than the no memory version.
 
 ### my-taxi-keras-deep-q-memory Run 13
 
-Based on Run 11, change learning rate from 0.01 to 0.005
+Based on Run 11, change learning rate from 0.01 to 0.0005
 
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-13.png)
 
 ### my-taxi-keras-deep-q-memory-fixed-target Run 14
 
-Based on Run 12, change learning rate from 0.01 to 0.005
+Based on Run 12, change learning rate from 0.01 to 0.0005
 
 Oberservation:
 
+Surprisingly, the result is far worse than learning rate = 0.001. It seems the agent would forget what it has learned for one episode and quickly became wise again. 
 
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-14.png)
