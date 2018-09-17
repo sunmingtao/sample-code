@@ -227,4 +227,6 @@ Based on my-taxi-keras-double-dqn, implemented dueling dqn
 
 Observation
 
+Seems to reduce the variance compared to my-taxi-keras-double-dqn. But it's not definitive. 
+
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-16.png)
