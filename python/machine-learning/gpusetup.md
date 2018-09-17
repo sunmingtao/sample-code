@@ -1,6 +1,6 @@
 ssh instance
 
-Install Cuda tool
+### Install Cuda tool
 
     curl -O https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_8.0.61-1_amd64.deb
     sudo dpkg -i cuda-repo-ubuntu1604_8.0.61-1_amd64.deb
@@ -17,7 +17,7 @@ Install Cuda tool
     source ~/.bashrc
     nvidia-smi
 
-Install cuDNN
+### Install cuDNN
 
 Download cudnn-9.0-linux-x64-v7.2.1.38.tgz from https://developer.nvidia.com/rdp/cudnn-download
 
@@ -32,7 +32,7 @@ Download cudnn-9.0-linux-x64-v7.2.1.38.tgz from https://developer.nvidia.com/rdp
 
 Assuming Anaconda has been installed
 
-Install Tensorflow GPU
+### Install Tensorflow GPU
 
     pip install --upgrade tensorflow-gpu
    
@@ -41,7 +41,12 @@ Check if install is successful
     import tensorflow as tf
     from tensorflow.python.client import device_lib
     print(device_lib.list_local_devices())
-   
+
+### Install other python libraries
+
+    pip install keras
+    pip install gym
+
 Reference:
 
 https://medium.com/@kstseng/%E5%9C%A8-google-cloud-platform-%E4%B8%8A%E4%BD%BF%E7%94%A8-gpu-%E5%92%8C%E5%AE%89%E8%A3%9D%E6%B7%B1%E5%BA%A6%E5%AD%B8%E7%BF%92%E7%9B%B8%E9%97%9C%E5%A5%97%E4%BB%B6-1b118e291015
