@@ -20,3 +20,5 @@ Find versions of GLIBCXX
 
 
 https://askubuntu.com/questions/575505/glibcxx-3-4-20-not-found-how-to-fix-this-error
+
+https://zcwlwen.online/2017/02/05/%E8%A7%A3%E5%86%B3%E5%9C%A8Ubuntu%E4%B8%8A%E5%87%BA%E7%8E%B0GLIBCXX-3-4-not-found%E9%97%AE%E9%A2%98/
