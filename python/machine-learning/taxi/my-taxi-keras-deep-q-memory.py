@@ -10,7 +10,7 @@ import math
 from collections import deque
 import matplotlib.pyplot as plt
 
-learning_rate = 0.001
+learning_rate = 0.0005
 gamma = 0.99
 n_max_episodes = 2000
 n_max_steps = 200

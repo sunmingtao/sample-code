@@ -587,4 +587,3 @@ callbacks += [TrainEpisodeLogger()]
 callbacks += [TrainIntervalLogger(interval=10000)]
 trainable_model, target_model = compile(Adam(lr=.00025), metrics=['mae'])
 fit(callbacks=callbacks, total_steps=n_total_steps, verbose=0)
-
