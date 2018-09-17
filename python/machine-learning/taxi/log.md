@@ -205,7 +205,7 @@ Surprisingly, the result is far worse than learning rate = 0.001. It seems the a
 
 ### my-taxi-keras-double-dqn Run 15
 
-Implemented double dqn 
+Based on my-taxi-keras-deep-q-memory-fixed-target, implemented double dqn 
 
 * use DQN network to select what is the best action to take for the next state (the action with the highest Q value).
 * use target network to calculate the target Q value of taking that action at the next state.
@@ -214,5 +214,6 @@ learning rate=0.001
 
 Observation
 
+Doesn't seem to improve from fixed target
 
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-15.png)
