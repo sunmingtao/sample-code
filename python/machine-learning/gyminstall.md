@@ -10,4 +10,13 @@
 
     conda install libgcc
 
+Find where libstdc++ is
+
+    /sbin/ldconfig -p | grep stdc++
+    
+Find versions of GLIBCXX
+
+    strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
+
+
 https://askubuntu.com/questions/575505/glibcxx-3-4-20-not-found-how-to-fix-this-error
