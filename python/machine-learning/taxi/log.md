@@ -217,3 +217,14 @@ Observation
 Doesn't seem to improve from fixed target
 
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-15.png)
+
+### my-taxi-keras-dueling-dqn Run 16
+
+Based on my-taxi-keras-double-dqn, implemented dueling dqn
+
+* one stream estimates the state value V(s)
+* one stream estimates the advantage for each action A(s,a)
+
+Observation
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-16.png)
