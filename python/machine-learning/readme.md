@@ -32,4 +32,23 @@ Protocal and port: tcp:5000
 
 Click SSH link, open SSH console
 
+    wget https://repo.continuum.io/archive/Anaconda3-4.2.0-Linux-x86_64.sh
+    bash Anaconda3-4.2.0-Linux-x86_64.sh
+    export PATH=/home/<user_directory>/anaconda3/bin:$PATH
+    jupyter notebook --generate-config
+    vi .jupyter/jupyter_notebook_config.py
+    
+Contents of jupyter_notebook_config.py
 
+    c = get_config()
+    # Kernel config
+    c.IPKernelApp.pylab = 'inline'  # if you want plotting support always in your notebook
+    c.NotebookApp.ip = '*'
+    c.NotebookApp.open_browser = False  #so that the ipython notebook does not opens up a browser by default
+    c.NotebookApp.port = 5000
+    
+Back to SSH console
+
+    jupyter notebook
+    
+In your browser: http://<external-ip-address>:5000
