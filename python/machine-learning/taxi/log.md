@@ -179,7 +179,7 @@ Based on Run 9, change learning rate from 0.001 to 0.01
 
 Based on Run 10, change learning rate from 0.001 to 0.01
 
-Oberservation:
+Observation:
 
 The result is abysmal. Even worse than the no memory version.  
 
@@ -195,8 +195,24 @@ Based on Run 11, change learning rate from 0.01 to 0.0005
 
 Based on Run 12, change learning rate from 0.01 to 0.0005
 
-Oberservation:
+Observation:
 
 Surprisingly, the result is far worse than learning rate = 0.001. It seems the agent would forget what it has learned for one episode and quickly became wise again. 
 
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-14.png)
+
+## 2018.9.17
+
+### my-taxi-keras-double-dqn Run 15
+
+Implemented double dqn 
+
+* use DQN network to select what is the best action to take for the next state (the action with the highest Q value).
+* use target network to calculate the target Q value of taking that action at the next state.
+
+learning rate=0.001
+
+Observation
+
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-15.png)
