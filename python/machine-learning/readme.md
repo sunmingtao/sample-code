@@ -51,4 +51,6 @@ Back to SSH console
 
     jupyter notebook
     
-In your browser: http://<external-ip-address>:5000
+In your browser 
+
+    http://<external-ip-address>:5000
