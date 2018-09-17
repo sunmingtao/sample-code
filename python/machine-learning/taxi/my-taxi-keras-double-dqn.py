@@ -1,3 +1,5 @@
+'''based on my-taxi-keras-deep-q-memory-fix-target.py, implement double DQN'''
+
 import numpy as np
 import gym
 import random
@@ -21,7 +23,7 @@ min_epsilon = 0.01
 decay_rate = 0.005
 memory_capacity = 10000
 BATCH_SIZE = 32
-n_warm_up_episode = 50
+n_warm_up_episode = 600
 n_target_model_update_every_steps=300
 
 env = gym.make("Taxi-v2")
@@ -59,6 +61,18 @@ def get_action(state):
 ''' Convert observation to one hot vector '''
 def preprocess(observation):
     return to_categorical(observation, num_classes=n_states).reshape(-1, n_states)
+
+def get_q_values_batch_by_actions(q_values_batch, action_batch):
+    batch_size = len(q_values_batch)
+    assert batch_size == len(action_batch)
+    one_hot_action_batch = to_categorical(action_batch, n_actions)
+    assert one_hot_action_batch.shape == (batch_size, n_actions)
+    q_value_for_action_batch = np.multiply(q_values_batch, one_hot_action_batch)
+    assert q_value_for_action_batch.shape == (batch_size, n_actions)
+    max_q_value_for_action_batch = np.max(q_value_for_action_batch, axis=-1).reshape(-1, 1)
+    assert max_q_value_for_action_batch.shape == (batch_size, 1)
+    return max_q_value_for_action_batch
+
 
 
 def dqn_model():
@@ -129,11 +143,14 @@ for episode in range(n_max_episodes):
             dones_batch = np.array(dones).reshape(-1, 1)
             new_states_batch = np.array(new_states).reshape(-1, n_states)
 
-            new_state_q_values_batch = target_model.predict_on_batch(new_states_batch)
+            new_state_q_values_batch = model.predict_on_batch(new_states_batch)
             assert new_state_q_values_batch.shape == (BATCH_SIZE, n_actions)
-            max_new_state_q_values_batch = np.max(new_state_q_values_batch, axis=-1).reshape(-1, 1)
-            assert max_new_state_q_values_batch.shape == (BATCH_SIZE, 1)
-            new_state_q_values_for_action_batch = rewards_batch + (1 - dones_batch) * gamma * max_new_state_q_values_batch
+            max_action_new_state_q_values_batch = np.argmax(new_state_q_values_batch, axis=-1).reshape(-1, 1)
+            assert max_action_new_state_q_values_batch.shape == (BATCH_SIZE, 1)
+            target_new_state_q_values_batch = target_model.predict_on_batch(new_states_batch)
+            assert target_new_state_q_values_batch.shape == (BATCH_SIZE, n_actions)
+            q_values_select_action_batch = get_q_values_batch_by_actions(target_new_state_q_values_batch, max_action_new_state_q_values_batch)
+            new_state_q_values_for_action_batch = rewards_batch + (1 - dones_batch) * gamma * q_values_select_action_batch
             assert new_state_q_values_for_action_batch.shape == (BATCH_SIZE, 1)
             state_q_values_batch = model.predict_on_batch(states_batch)
             for _state_q_values, _action, _new_state_q_values_for_action in zip(state_q_values_batch, actions_batch, new_state_q_values_for_action_batch):
@@ -157,7 +174,7 @@ print('Training lasted {}'.format(time.time() - start_time))
 
 
 plt.plot(episode_rewards)
-plt.title('Q memory with fixed target. learning rate=0.001')
+plt.title('Double DQN. learning rate=0.001')
 plt.xlabel('Episode')
 plt.ylabel('Episode reward')
 plt.show()

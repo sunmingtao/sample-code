@@ -1,10 +1,13 @@
+'''based on my-taxi-keras-double-dqn, implement dueling dqn'''
+
 import numpy as np
 import gym
 import random
 from keras.utils.np_utils import to_categorical
-from keras.layers import Input, Dense
+from keras.layers import Input, Dense, Lambda
 from keras.models import Model
 from keras.optimizers import Adam
+import keras.backend as K
 from tensorflow.losses import huber_loss
 import math
 from collections import deque
@@ -22,7 +25,7 @@ decay_rate = 0.005
 memory_capacity = 10000
 BATCH_SIZE = 32
 n_warm_up_episode = 50
-n_target_model_update_every_steps=300
+n_target_model_update_every_steps=50
 
 env = gym.make("Taxi-v2")
 
@@ -60,6 +63,21 @@ def get_action(state):
 def preprocess(observation):
     return to_categorical(observation, num_classes=n_states).reshape(-1, n_states)
 
+def get_q_values_batch_by_actions(q_values_batch, action_batch):
+    batch_size = len(q_values_batch)
+    assert batch_size == len(action_batch)
+    one_hot_action_batch = to_categorical(action_batch, n_actions)
+    assert one_hot_action_batch.shape == (batch_size, n_actions)
+    q_value_for_action_batch = np.multiply(q_values_batch, one_hot_action_batch)
+    assert q_value_for_action_batch.shape == (batch_size, n_actions)
+    max_q_value_for_action_batch = np.max(q_value_for_action_batch, axis=-1).reshape(-1, 1)
+    assert max_q_value_for_action_batch.shape == (batch_size, 1)
+    return max_q_value_for_action_batch
+
+def combine_state_value_and_advantage(arg):
+    state_value = arg[0]
+    advantage = arg[1]
+    return state_value + (advantage - K.mean(advantage, keepdims=True))
 
 def dqn_model():
     inputs = Input(shape=[n_states], name='input')
@@ -67,9 +85,14 @@ def dqn_model():
     dense_outputs1 = dense_layer1(inputs)
     dense_layer2 = Dense(32, activation='relu', kernel_initializer='he_uniform', name='dense2')
     dense_outputs2 = dense_layer2(dense_outputs1)
-    output_layer = Dense(n_actions, activation='linear', kernel_initializer='TruncatedNormal', name='output')
-    outputs = output_layer(dense_outputs2)
+    advantage_layer = Dense(n_actions, activation='linear', kernel_initializer='TruncatedNormal', name='advantage')
+    advantage_outputs = advantage_layer(dense_outputs2)
+    state_value_layer = Dense(1, activation='linear', kernel_initializer='TruncatedNormal', name='state_value')
+    state_value_outputs = state_value_layer(dense_outputs2)
+    output_layer = Lambda(combine_state_value_and_advantage, name='output')
+    outputs = output_layer([state_value_outputs, advantage_outputs])
     return Model(inputs=inputs, outputs=outputs)
+
 
 
 model = dqn_model()
@@ -129,11 +152,14 @@ for episode in range(n_max_episodes):
             dones_batch = np.array(dones).reshape(-1, 1)
             new_states_batch = np.array(new_states).reshape(-1, n_states)
 
-            new_state_q_values_batch = target_model.predict_on_batch(new_states_batch)
+            new_state_q_values_batch = model.predict_on_batch(new_states_batch)
             assert new_state_q_values_batch.shape == (BATCH_SIZE, n_actions)
-            max_new_state_q_values_batch = np.max(new_state_q_values_batch, axis=-1).reshape(-1, 1)
-            assert max_new_state_q_values_batch.shape == (BATCH_SIZE, 1)
-            new_state_q_values_for_action_batch = rewards_batch + (1 - dones_batch) * gamma * max_new_state_q_values_batch
+            max_action_new_state_q_values_batch = np.argmax(new_state_q_values_batch, axis=-1).reshape(-1, 1)
+            assert max_action_new_state_q_values_batch.shape == (BATCH_SIZE, 1)
+            target_new_state_q_values_batch = target_model.predict_on_batch(new_states_batch)
+            assert target_new_state_q_values_batch.shape == (BATCH_SIZE, n_actions)
+            q_values_select_action_batch = get_q_values_batch_by_actions(target_new_state_q_values_batch, max_action_new_state_q_values_batch)
+            new_state_q_values_for_action_batch = rewards_batch + (1 - dones_batch) * gamma * q_values_select_action_batch
             assert new_state_q_values_for_action_batch.shape == (BATCH_SIZE, 1)
             state_q_values_batch = model.predict_on_batch(states_batch)
             for _state_q_values, _action, _new_state_q_values_for_action in zip(state_q_values_batch, actions_batch, new_state_q_values_for_action_batch):
@@ -157,7 +183,7 @@ print('Training lasted {}'.format(time.time() - start_time))
 
 
 plt.plot(episode_rewards)
-plt.title('Q memory with fixed target. learning rate=0.001')
+plt.title('Dueling DQN. learning rate=0.001')
 plt.xlabel('Episode')
 plt.ylabel('Episode reward')
 plt.show()
