@@ -230,3 +230,15 @@ Observation
 Seems to reduce the variance compared to my-taxi-keras-double-dqn. But it's not definitive. 
 
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-16.png)
+
+## 2018.9.18
+
+### my-taxi-keras-dueling-dqn-v2 Run 17
+
+Change n_max_steps from 200 to 199. When number of steps reaches 200, the environment stops the game and sets Done to True. But Done shouldn't be True in this scenario. Therefore reduce the n_max_steps so that this scenario never occurs. 
+
+Observation:
+
+It doesn't seem to improve. 
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-17.png)
