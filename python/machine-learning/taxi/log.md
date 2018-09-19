@@ -242,3 +242,17 @@ Observation:
 It doesn't seem to improve. 
 
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-17.png)
+
+## 2018.9.19
+
+### my-taxi-keras-dueling-dqn-v3 Run 18
+
+* Return loss as an output to be more flexible
+* Define huber_loss function rather than use tensorflow's function
+* Change n_max_steps back to 200
+
+Observation: 
+
+OK result
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-17.png)
