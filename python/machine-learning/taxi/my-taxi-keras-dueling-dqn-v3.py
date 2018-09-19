@@ -1,17 +1,18 @@
-'''based on my-taxi-keras-deep-q-memory-fix-target.py, implement double DQN'''
+'''based on my-taxi-keras-dueling-dqn-v2, Return loss as an output to be more flexible'''
 
 import numpy as np
 import gym
 import random
 from keras.utils.np_utils import to_categorical
-from keras.layers import Input, Dense
+from keras.layers import Input, Dense, Lambda
 from keras.models import Model
 from keras.optimizers import Adam
-from tensorflow.losses import huber_loss
+import keras.backend as K
 import math
 from collections import deque
 import time
 import matplotlib.pyplot as plt
+import tensorflow as tf
 
 learning_rate = 0.001
 gamma = 0.99
@@ -24,7 +25,7 @@ decay_rate = 0.005
 memory_capacity = 10000
 BATCH_SIZE = 32
 n_warm_up_episode = 50
-n_target_model_update_every_steps=1000
+n_target_model_update_every_steps=300
 
 env = gym.make("Taxi-v2")
 
@@ -45,10 +46,13 @@ class Memory:
     def sample(self, batch_size=BATCH_SIZE):
         return random.sample(self.memory, batch_size)
 
+
 memory = Memory()
+
 
 def get_epsilon(episode):
     return min_epsilon + (max_epsilon - min_epsilon) * np.exp(-decay_rate * episode)
+
 
 def get_action(state):
     # 3. Choose an action a in the current world state (s)
@@ -58,22 +62,32 @@ def get_action(state):
     else:
         return env.action_space.sample()
 
+
 ''' Convert observation to one hot vector '''
 def preprocess(observation):
     return to_categorical(observation, num_classes=n_states).reshape(-1, n_states)
 
+
 def get_q_values_batch_by_actions(q_values_batch, action_batch):
     batch_size = len(q_values_batch)
     assert batch_size == len(action_batch)
-    one_hot_action_batch = to_categorical(action_batch, n_actions)
-    assert one_hot_action_batch.shape == (batch_size, n_actions)
-    q_value_for_action_batch = np.multiply(q_values_batch, one_hot_action_batch)
-    assert q_value_for_action_batch.shape == (batch_size, n_actions)
-    max_q_value_for_action_batch = np.max(q_value_for_action_batch, axis=-1).reshape(-1, 1)
+    max_q_value_for_action_batch = q_values_batch[range(batch_size), action_batch].reshape(-1, 1)
     assert max_q_value_for_action_batch.shape == (batch_size, 1)
     return max_q_value_for_action_batch
 
 
+def combine_state_value_and_advantage(arg):
+    state_value = arg[0]
+    advantage = arg[1]
+    return state_value + (advantage - K.mean(advantage, keepdims=True))
+
+def huber_loss(arg):
+    y_true, y_pred = arg
+    x = y_true - y_pred
+    squared_loss = .5 * K.square(x)
+    linear_loss = K.abs(x) - .5
+    loss = tf.where(K.abs(x) < 1., squared_loss, linear_loss)
+    return K.sum(loss, axis=-1)
 
 def dqn_model():
     inputs = Input(shape=[n_states], name='input')
@@ -81,16 +95,30 @@ def dqn_model():
     dense_outputs1 = dense_layer1(inputs)
     dense_layer2 = Dense(32, activation='relu', kernel_initializer='he_uniform', name='dense2')
     dense_outputs2 = dense_layer2(dense_outputs1)
-    output_layer = Dense(n_actions, activation='linear', kernel_initializer='TruncatedNormal', name='output')
-    outputs = output_layer(dense_outputs2)
+    advantage_layer = Dense(n_actions, activation='linear', kernel_initializer='TruncatedNormal', name='advantage')
+    advantage_outputs = advantage_layer(dense_outputs2)
+    state_value_layer = Dense(1, activation='linear', kernel_initializer='TruncatedNormal', name='state_value')
+    state_value_outputs = state_value_layer(dense_outputs2)
+    output_layer = Lambda(combine_state_value_and_advantage, name='output')
+    outputs = output_layer([state_value_outputs, advantage_outputs])
     return Model(inputs=inputs, outputs=outputs)
+
+
+def dqn_train_model(model):
+    inputs = model.input
+    y_true = Input(shape=[n_actions], name='y_true')
+    outputs = model.output
+    loss_layer = Lambda(huber_loss, name='loss')
+    loss_outputs = loss_layer([y_true, outputs])
+    return Model(inputs=[inputs, y_true], outputs=loss_outputs)
 
 
 model = dqn_model()
 target_model = dqn_model()
-
+train_model = dqn_train_model(model)
 
 print(model.summary())
+print(train_model.summary())
 
 observation = env.reset()
 state = preprocess(observation)
@@ -101,7 +129,9 @@ assert type(action) is np.int64 and 0 <= action <= 6
 max_q_value = np.max(q_values)
 assert type(max_q_value) is np.float32
 
-model.compile(loss=huber_loss, optimizer=Adam(lr=learning_rate))
+model.compile(loss='mse', optimizer=Adam(lr=learning_rate))
+train_model.compile(loss=lambda y_true, y_pred: y_pred, optimizer=Adam(lr=learning_rate))
+
 
 best_reward = -math.inf
 episode_rewards = []
@@ -145,8 +175,8 @@ for episode in range(n_max_episodes):
 
             new_state_q_values_batch = model.predict_on_batch(new_states_batch)
             assert new_state_q_values_batch.shape == (BATCH_SIZE, n_actions)
-            max_action_new_state_q_values_batch = np.argmax(new_state_q_values_batch, axis=-1).reshape(-1, 1)
-            assert max_action_new_state_q_values_batch.shape == (BATCH_SIZE, 1)
+            max_action_new_state_q_values_batch = np.argmax(new_state_q_values_batch, axis=-1)
+            assert max_action_new_state_q_values_batch.shape == (BATCH_SIZE, )
             target_new_state_q_values_batch = target_model.predict_on_batch(new_states_batch)
             assert target_new_state_q_values_batch.shape == (BATCH_SIZE, n_actions)
             q_values_select_action_batch = get_q_values_batch_by_actions(target_new_state_q_values_batch, max_action_new_state_q_values_batch)
@@ -155,7 +185,8 @@ for episode in range(n_max_episodes):
             state_q_values_batch = model.predict_on_batch(states_batch)
             for _state_q_values, _action, _new_state_q_values_for_action in zip(state_q_values_batch, actions_batch, new_state_q_values_for_action_batch):
                 _state_q_values[_action] = _new_state_q_values_for_action[0]
-            model.fit(x=states_batch, y=state_q_values_batch, batch_size=BATCH_SIZE, verbose=0)
+            dummy_target = np.zeros(shape=(BATCH_SIZE, n_actions))
+            train_model.fit(x=[states_batch, state_q_values_batch], y=dummy_target, batch_size=BATCH_SIZE, verbose=0)
         state = new_state
         total_step += 1
         if total_step % n_target_model_update_every_steps == 0:
@@ -174,7 +205,7 @@ print('Training lasted {}'.format(time.time() - start_time))
 
 
 plt.plot(episode_rewards)
-plt.title('Double DQN. target model update steps={}'.format(n_target_model_update_every_steps))
+plt.title('Dueling DQN. n_max_steps={}'.format(n_max_steps))
 plt.xlabel('Episode')
 plt.ylabel('Episode reward')
 plt.show()

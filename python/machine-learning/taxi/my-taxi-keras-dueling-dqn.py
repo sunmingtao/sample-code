@@ -25,7 +25,7 @@ decay_rate = 0.005
 memory_capacity = 10000
 BATCH_SIZE = 32
 n_warm_up_episode = 50
-n_target_model_update_every_steps=50
+n_target_model_update_every_steps=300
 
 env = gym.make("Taxi-v2")
 
@@ -183,7 +183,7 @@ print('Training lasted {}'.format(time.time() - start_time))
 
 
 plt.plot(episode_rewards)
-plt.title('Dueling DQN. learning rate=0.001')
+plt.title('Dueling DQN. n_target_model_update_every_steps={}'.format(n_target_model_update_every_steps))
 plt.xlabel('Episode')
 plt.ylabel('Episode reward')
 plt.show()
