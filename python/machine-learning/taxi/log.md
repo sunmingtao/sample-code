@@ -255,4 +255,4 @@ Observation:
 
 OK result
 
-![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-17.png)
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-18.png)
