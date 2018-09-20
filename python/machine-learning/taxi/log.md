@@ -312,6 +312,7 @@ Same as previous run
 ### my-taxi-keras-priority-replay Run 24
 
 * Select sample based on priority  (the higher the priority, the greater chance it gets selected)
+* Importance weights not applied
 * memory_capacity = 10000
 * n_target_model_update_every_steps = 1000
 
