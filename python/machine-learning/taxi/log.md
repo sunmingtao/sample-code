@@ -259,4 +259,22 @@ OK result
 
 ## 2018.9.20
 
+### my-taxi-keras-dueling-dqn-v2 Run 19
 
+* Just a rerun to check confirm huber loss
+
+Observation:
+
+Huberloss doesn't seem to work. Maybe the previous run just got lucky.
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-19.png)
+
+### my-taxi-keras-dueling-dqn-v3 Run 20
+
+* Change huberloss to mse
+
+Observation:
+
+A lot better. 
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-20.png)
