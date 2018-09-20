@@ -299,7 +299,7 @@ Same as previous run
 
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-22.png)
 
-### my-taxi-keras-dueling-dqn-v4 Run 22
+### my-taxi-keras-dueling-dqn-v4 Run 23
 
 * Memory capacity = 50000
 
@@ -308,3 +308,17 @@ Observation:
 Same as previous run
 
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-23.png)
+
+### my-taxi-keras-priority-replay Run 24
+
+* Select sample based on priority  (the higher the priority, the greater chance it gets selected)
+* memory_capacity = 10000
+* n_target_model_update_every_steps = 1000
+
+Observation
+
+I just realised runs on the same code can produce very different result. So I am running 3 times for each run now.
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-24-1.png)
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-24-2.png)
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-24-3.png)
