@@ -323,3 +323,13 @@ I just realised runs on the same code can produce very different result. So I am
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-24-1.png)
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-24-2.png)
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-24-3.png)
+
+### my-taxi-keras-priority-replay Run 25
+
+* n_target_model_update_every_steps = 1000
+* memory capacity = 50000
+* n_max_steps = 198
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-25-1.png)
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-25-2.png)
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-25-3.png)
