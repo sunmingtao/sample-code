@@ -256,3 +256,26 @@ Observation:
 OK result
 
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-18.png)
+
+## 2018.9.20
+
+### my-taxi-keras-dueling-dqn-v3 Run 19
+
+* memory capacity = 200000
+
+Observation: 
+
+Result is bad because the old bad experience remains in the memory causing, the agent constantly learned from them.
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-19.png)
+
+### my-taxi-keras-dueling-dqn-v3 Run 20
+
+* memory capacity = 5000
+
+Observation: 
+
+Result is bad because the old bad experience remains in the memory causing, the agent constantly learned from them.
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-20.png)
+
