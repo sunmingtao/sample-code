@@ -289,7 +289,7 @@ Same as previous run
 
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-21.png)
 
-### my-taxi-keras-dueling-dqn-v5 Run 22
+### my-taxi-keras-dueling-dqn-v4 Run 22
 
 * Memory capacity = 5000
 
@@ -298,3 +298,13 @@ Observation:
 Same as previous run
 
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-22.png)
+
+### my-taxi-keras-dueling-dqn-v4 Run 22
+
+* Memory capacity = 50000
+
+Observation:
+
+Same as previous run
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-23.png)
