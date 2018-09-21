@@ -256,3 +256,88 @@ Observation:
 OK result
 
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-18.png)
+
+## 2018.9.20
+
+### my-taxi-keras-dueling-dqn-v2 Run 19
+
+* Just a rerun to check confirm huber loss
+
+Observation:
+
+Huberloss doesn't seem to work. Maybe the previous run just got lucky.
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-19.png)
+
+### my-taxi-keras-dueling-dqn-v3 Run 20
+
+* Change huberloss to mse
+
+Observation:
+
+A lot better. 
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-20.png)
+
+### my-taxi-keras-dueling-dqn-v4 Run 21
+
+* Based on previous run, change memory from dequeue to ring style
+
+Observation:
+
+Same as previous run
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-21.png)
+
+### my-taxi-keras-dueling-dqn-v4 Run 22
+
+* Memory capacity = 5000
+
+Observation:
+
+Same as previous run
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-22.png)
+
+### my-taxi-keras-dueling-dqn-v4 Run 23
+
+* Memory capacity = 50000
+
+Observation:
+
+Same as previous run
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-23.png)
+
+### my-taxi-keras-priority-replay Run 24
+
+* Select sample based on priority  (the higher the priority, the greater chance it gets selected)
+* Importance weights not applied
+* memory_capacity = 10000
+* n_target_model_update_every_steps = 1000
+
+Observation
+
+I just realised runs on the same code can produce very different result. So I am running 3 times for each run now.
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-24-1.png)
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-24-2.png)
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-24-3.png)
+
+### my-taxi-keras-priority-replay Run 25
+
+* n_target_model_update_every_steps = 1000
+* memory capacity = 50000
+* n_max_steps = 198
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-25-1.png)
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-25-2.png)
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-25-3.png)
+
+### my-taxi-keras-priority-replay Run 26
+
+* Add importance weights
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-26-1.png)
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-26-2.png)
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-26-3.png)
