@@ -186,9 +186,40 @@ print('Training lasted {}'.format(time.time() - start_time))
 
 
 plt.plot(episode_rewards)
-plt.title('Dueling DQN. n_max_steps={}'.format(n_max_steps))
+plt.title('Dueling DQN. Tensorflow huberloss.')
 plt.xlabel('Episode')
 plt.ylabel('Episode reward')
 plt.show()
+
+
+import tensorflow as tf
+from keras.losses import mean_squared_error
+
+def my_loss(y_pred, y_true, weights):
+    x = y_true - y_pred
+    loss = tf.square(x) * weights
+    return tf.reduce_sum(loss, axis=-1)
+
+def my_loss2(y_pred, y_true):
+    x = y_true - y_pred
+    loss = tf.square(x)
+    return tf.reduce_sum(loss, axis=-1)
+
+
+y_pred = tf.Variable([[1.1, 2.3, 3.],[1.2, 2.5, 10.]])
+y_true = tf.Variable([[1., 2., 4.],[2., 2., 3.]])
+weights = tf.Variable([[0.8],[0.7]])
+
+sess = tf.InteractiveSession()
+sess.run(tf.initialize_all_variables())
+
+loss = mean_squared_error(y_pred, y_true)
+loss2 = my_loss(y_pred, y_true, weights)
+loss3 = my_loss2(y_pred, y_true)
+
+loss_val, loss2_val, loss3_val = sess.run([loss, loss2, loss3])
+print (loss_val, loss2_val, loss3_val)
+
+
 
 

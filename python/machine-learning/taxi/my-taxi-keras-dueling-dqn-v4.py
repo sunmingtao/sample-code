@@ -1,4 +1,4 @@
-'''based on my-taxi-keras-dueling-dqn-v2, Return loss as an output to be more flexible'''
+'''based on my-taxi-keras-dueling-dqn-v3, Not use dequeue'''
 
 import numpy as np
 import gym
@@ -22,7 +22,7 @@ epsilon = 1.0
 max_epsilon = 1.0
 min_epsilon = 0.01
 decay_rate = 0.005
-memory_capacity = 10000
+memory_capacity = 50000
 BATCH_SIZE = 32
 n_warm_up_episode = 50
 n_target_model_update_every_steps=300
@@ -38,13 +38,19 @@ print('num actions={}, num states={}'.format(n_actions, n_states))
 class Memory:
 
     def __init__(self, capacity=memory_capacity):
-        self.memory = deque(maxlen=capacity)
+        self.memory = np.empty(shape=capacity, dtype=np.object)
+        self.capacity = capacity
+        self.current_index = 0
+        self.size = 0
 
     def append(self, state, action, reward, done, new_state):
-        self.memory.append((state, action, reward, done, new_state))
+        self.memory[self.current_index] = (state, action, reward, done, new_state)
+        self.size = min(self.size + 1, self.capacity)
+        self.current_index = (self.current_index + 1) % self.capacity
 
     def sample(self, batch_size=BATCH_SIZE):
-        return random.sample(self.memory, batch_size)
+        indexes = np.random.permutation(self.size)[:batch_size]
+        return self.memory[indexes]
 
 
 memory = Memory()
@@ -81,13 +87,10 @@ def combine_state_value_and_advantage(arg):
     advantage = arg[1]
     return state_value + (advantage - K.mean(advantage, keepdims=True))
 
-def huber_loss(arg):
+def my_loss(arg):
     y_true, y_pred = arg
     x = y_true - y_pred
-    squared_loss = .5 * K.square(x)
-    linear_loss = K.abs(x) - .5
-    loss = tf.where(K.abs(x) < 1., squared_loss, squared_loss)
-    return K.sum(loss, axis=-1)
+    return K.mean(K.square(x), axis=-1)
 
 def dqn_model():
     inputs = Input(shape=[n_states], name='input')
@@ -108,7 +111,7 @@ def dqn_train_model(model):
     inputs = model.input
     y_true = Input(shape=[n_actions], name='y_true')
     outputs = model.output
-    loss_layer = Lambda(huber_loss, name='loss')
+    loss_layer = Lambda(my_loss, name='loss')
     loss_outputs = loss_layer([y_true, outputs])
     return Model(inputs=[inputs, y_true], outputs=loss_outputs)
 
@@ -205,7 +208,7 @@ print('Training lasted {}'.format(time.time() - start_time))
 
 
 plt.plot(episode_rewards)
-plt.title('Dueling DQN. Dequeue. MSE. memory_capacity={}'.format(memory_capacity))
+plt.title('Dueling DQN. No Dequeue. MSE. memory_capacity={}'.format(memory_capacity))
 plt.xlabel('Episode')
 plt.ylabel('Episode reward')
 plt.show()

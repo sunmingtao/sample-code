@@ -1,4 +1,4 @@
-'''based on my-taxi-keras-dueling-dqn-v4, Implement priority queue'''
+'''based on my-taxi-keras-priority-replay, Implement noisy net'''
 
 import numpy as np
 import gym
@@ -13,6 +13,8 @@ import time
 import matplotlib.pyplot as plt
 import operator
 import tensorflow as tf
+from keras.engine.topology import Layer
+from keras import initializers, activations
 
 learning_rate = 0.001
 gamma = 0.99
@@ -34,6 +36,63 @@ n_actions = env.action_space.n
 n_states = env.observation_space.n
 
 print('num actions={}, num states={}'.format(n_actions, n_states))
+
+
+class NoisyDense(Layer):
+
+    def __init__(self, units, activation=None, **kwargs):
+        self.units = units
+        self.activation = activations.get(activation)
+        super().__init__(**kwargs)
+
+    def build(self, input_shape):
+        self.input_dim = input_shape[-1]
+
+        sqr_inputs = self.input_dim ** (1 / 2)
+        self.sigma_initializer = initializers.Constant(value=5. / sqr_inputs)
+        self.mu_initializer = initializers.RandomUniform(minval=(-1 / sqr_inputs), maxval=(1 / sqr_inputs))
+
+        self.mu_weight = self.add_weight(shape=(self.input_dim, self.units),
+                                         initializer=self.mu_initializer,
+                                         name='mu_weights')
+
+        self.mu_bias = self.add_weight(shape=(self.units,),
+                                         initializer=self.mu_initializer,
+                                         name='mu_bias')
+
+        self.sigma_weight = self.add_weight(shape=(self.input_dim, self.units),
+                                         initializer=self.sigma_initializer,
+                                         name='sigma_weights')
+
+        self.sigma_bias = self.add_weight(shape=(self.units,),
+                                       initializer=self.sigma_initializer,
+                                       name='sigma_bias')
+
+        super().build(input_shape)
+
+
+    def call(self, x):
+        # sample from noise distribution
+        e_i = K.random_normal((self.input_dim, self.units)) * 10
+        e_j = K.random_normal((self.units,)) * 10
+
+        # We use the factorized Gaussian noise variant from Section 3 of Fortunato et al.
+        eW = K.sign(e_i) * (K.sqrt(K.abs(e_i))) * K.sign(e_j) * (K.sqrt(K.abs(e_j)))
+        eB = K.sign(e_j) * (K.abs(e_j) ** (1 / 2))
+
+        noise_injected_weights = K.dot(x, self.mu_weight + (self.sigma_weight * eW))
+        noise_injected_bias = self.mu_bias + (self.sigma_bias * eB)
+
+        output = K.bias_add(noise_injected_weights, noise_injected_bias)
+        if self.activation is not None:
+            output = self.activation(output)
+        return output
+
+
+    def compute_output_shape(self, input_shape):
+        return input_shape[0], self.units
+
+
 
 class SegmentTree():
     def __init__(self, capacity, operation, init_value=None):
@@ -278,13 +337,13 @@ def my_loss(arg):
 
 def dqn_model():
     inputs = Input(shape=[n_states], name='input')
-    dense_layer1 = Dense(128, activation='relu', kernel_initializer='he_uniform', name='dense1')
+    dense_layer1 = Dense(128, activation='relu', name='dense1')
     dense_outputs1 = dense_layer1(inputs)
-    dense_layer2 = Dense(32, activation='relu', kernel_initializer='he_uniform', name='dense2')
+    dense_layer2 = Dense(32, activation='relu',  name='dense2')
     dense_outputs2 = dense_layer2(dense_outputs1)
-    advantage_layer = Dense(n_actions, activation='linear', kernel_initializer='TruncatedNormal', name='advantage')
+    advantage_layer = NoisyDense(n_actions, activation='linear',  name='advantage')
     advantage_outputs = advantage_layer(dense_outputs2)
-    state_value_layer = Dense(1, activation='linear', kernel_initializer='TruncatedNormal', name='state_value')
+    state_value_layer = NoisyDense(1, activation='linear', name='state_value')
     state_value_outputs = state_value_layer(dense_outputs2)
     output_layer = Lambda(combine_state_value_and_advantage, name='output')
     outputs = output_layer([state_value_outputs, advantage_outputs])
@@ -309,6 +368,7 @@ train_model = dqn_train_model(model)
 
 print(model.summary())
 print(train_model.summary())
+
 
 observation = env.reset()
 state = preprocess(observation)
@@ -335,11 +395,14 @@ for episode in range(n_max_episodes):
     beta = memory.calculate_beta(current_episode=episode)
     for step in range(n_max_steps):
         state_q_values = model.predict(state)
+        action = np.argmax(state_q_values)
+        '''
         ran = random.uniform(0, 1)
         if ran > epsilon:
             action = np.argmax(state_q_values)
         else:
             action = env.action_space.sample()
+        '''
         observation, reward, done, _ = env.step(action)
         episode_reward += reward
         new_state = preprocess(observation)
@@ -397,26 +460,21 @@ for episode in range(n_max_episodes):
     if episode > n_warm_up_episode:
         epsilon = get_epsilon(episode-n_warm_up_episode)
     episode_rewards.append(episode_reward)
+    state_value_layer_weights = model.get_layer('state_value').get_weights()
+    print(np.sum(state_value_layer_weights[0]), np.sum(state_value_layer_weights[1]), np.sum(state_value_layer_weights[2]), np.sum(state_value_layer_weights[3]))
     print('Episode {} Reward={} Epsilon={:.4f} Beta={:.4f}'.format(episode, episode_reward, epsilon, beta))
 print('Best reward is {}'.format(best_reward))
 print('Training lasted {}'.format(time.time() - start_time))
 
 
 plt.plot(episode_rewards)
-plt.title('Priority replay with importance weights. memory={}, target_model_update={}'.format(memory_capacity, n_target_model_update_every_steps))
+plt.title('Noisy net'.format(memory_capacity, n_target_model_update_every_steps))
 plt.xlabel('Episode')
 plt.ylabel('Episode reward')
 plt.show()
 
 
-import tensorflow as tf
-from keras.losses import mean_squared_error
-from keras import initializers
 
-sqr_inputs = 128**(1/2)
-sigma_initializer = initializers.Constant(value=.5/sqr_inputs)
-mu_initializer = initializers.RandomUniform(minval=(-1/sqr_inputs), maxval=(1/sqr_inputs))
-tensor = mu_initializer(shape=(2,2))
 
 
 
