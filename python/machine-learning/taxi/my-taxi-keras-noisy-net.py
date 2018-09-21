@@ -18,7 +18,7 @@ from keras import initializers, activations
 
 learning_rate = 0.001
 gamma = 0.99
-n_max_episodes = 2000
+n_max_episodes = 100
 n_max_steps = 198
 epsilon = 1.0
 max_epsilon = 1.0
@@ -49,7 +49,7 @@ class NoisyDense(Layer):
         self.input_dim = input_shape[-1]
 
         sqr_inputs = self.input_dim ** (1 / 2)
-        self.sigma_initializer = initializers.Constant(value=5. / sqr_inputs)
+        self.sigma_initializer = initializers.Constant(value=0.5 / sqr_inputs)
         self.mu_initializer = initializers.RandomUniform(minval=(-1 / sqr_inputs), maxval=(1 / sqr_inputs))
 
         self.mu_weight = self.add_weight(shape=(self.input_dim, self.units),
@@ -73,8 +73,8 @@ class NoisyDense(Layer):
 
     def call(self, x):
         # sample from noise distribution
-        e_i = K.random_normal((self.input_dim, self.units)) * 10
-        e_j = K.random_normal((self.units,)) * 10
+        e_i = K.random_normal((self.input_dim, self.units))
+        e_j = K.random_normal((self.units,))
 
         # We use the factorized Gaussian noise variant from Section 3 of Fortunato et al.
         eW = K.sign(e_i) * (K.sqrt(K.abs(e_i))) * K.sign(e_j) * (K.sqrt(K.abs(e_j)))
@@ -337,9 +337,9 @@ def my_loss(arg):
 
 def dqn_model():
     inputs = Input(shape=[n_states], name='input')
-    dense_layer1 = Dense(128, activation='relu', name='dense1')
+    dense_layer1 = NoisyDense(128, activation='relu', name='dense1')
     dense_outputs1 = dense_layer1(inputs)
-    dense_layer2 = Dense(32, activation='relu',  name='dense2')
+    dense_layer2 = NoisyDense(32, activation='relu',  name='dense2')
     dense_outputs2 = dense_layer2(dense_outputs1)
     advantage_layer = NoisyDense(n_actions, activation='linear',  name='advantage')
     advantage_outputs = advantage_layer(dense_outputs2)
@@ -472,6 +472,16 @@ plt.title('Noisy net'.format(memory_capacity, n_target_model_update_every_steps)
 plt.xlabel('Episode')
 plt.ylabel('Episode reward')
 plt.show()
+
+observation = env.reset()
+state = preprocess(observation)
+actions = []
+for _ in range(100):
+    state_q_values = model.predict(state)
+    action = np.argmax(state_q_values)
+    actions.append(action)
+    print(state_q_values)
+plt.hist(actions)
 
 
 
