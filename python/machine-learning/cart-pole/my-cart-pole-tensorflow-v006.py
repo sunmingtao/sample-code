@@ -113,7 +113,7 @@ for game in range(n_epoches):
     state = env.reset()
     total_reward = 0
     for step in range(n_max_steps):
-        #env.render()
+        env.render()
         action = act(state)
         next_state, reward, done, _ = env.step(action)
         reward = reward if not done else -10
