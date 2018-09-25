@@ -341,3 +341,14 @@ I just realised runs on the same code can produce very different result. So I am
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-26-1.png)
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-26-2.png)
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-26-3.png)
+
+
+## 2018.9.20
+
+### my-taxi-keras-n-steps Run 27
+
+* Implement n-steps
+* n_max_steps = 201
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-27-1.png)
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-27-2.png)
