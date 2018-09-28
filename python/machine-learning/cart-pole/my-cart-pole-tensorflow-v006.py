@@ -116,7 +116,7 @@ for game in range(n_epoches):
         env.render()
         action = act(state)
         next_state, reward, done, _ = env.step(action)
-        reward = reward if not done else -10
+        reward = reward if not done else reward
         memory.append((state, action, reward, next_state, done))
         state = next_state
         if done:
