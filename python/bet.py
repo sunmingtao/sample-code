@@ -6,7 +6,7 @@ initial_bankroll = 100
 
 # Strategy 1 - bet 1% of the bankroll always on 6
 
-bet_amount_proportion = 0.01
+bet_amount_proportion = 0.006
 
 distribution = np.array([0.166, 0.166, 0.166, 0.166, 0.166, 0.17])
 
