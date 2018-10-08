@@ -37,3 +37,9 @@ for faceDetail in response['FaceDetails']:
     print('The detected face is between ' + str(faceDetail['AgeRange']['Low']) + ' and ' + str(faceDetail['AgeRange']['High']) + ' years old')
     print('Here are the other attributes:')
     print(json.dumps(faceDetail, indent=4, sort_keys=True))
+
+
+
+import multiprocessing
+
+multiprocessing.cpu_count()

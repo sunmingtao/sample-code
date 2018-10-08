@@ -11,7 +11,7 @@ import tensorflow as tf
 
 actor_learning_rate=0.001
 critic_learning_rate=0.005
-done_reward = -100
+done_reward = -10
 n_max_episodes = 10000
 n_max_steps = 10000
 gamma = 0.99
@@ -29,22 +29,22 @@ def preprocess(observation):
 
 def get_actor_model():
     state_input = Input(shape=[4], name='state_input')
-    dense_layer1 = Dense(24, activation='relu', kernel_initializer='he_uniform', name='dense1')
+    dense_layer1 = Dense(100, activation='relu', kernel_initializer='he_uniform', name='dense1')
     dense_output1 = dense_layer1(state_input)
-    dense_layer2 = Dense(12, activation='relu', kernel_initializer='he_uniform', name='dense2')
+    dense_layer2 = Dense(50, activation='relu', kernel_initializer='he_uniform', name='dense2')
     dense_output2 = dense_layer2(dense_output1)
     dense_layer3 = Dense(n_actions, activation='softmax', kernel_initializer='he_uniform', name='dense3')
-    dense_output3 = dense_layer3(dense_output2)
+    dense_output3 = dense_layer3(dense_output1)
     return Model(inputs=state_input, outputs=dense_output3)
 
 def get_critic_model():
     state_input = Input(shape=[4], name='state_input')
-    dense_layer1 = Dense(24, activation='relu', kernel_initializer='he_uniform', name='dense1')
+    dense_layer1 = Dense(100, activation='relu', kernel_initializer='he_uniform', name='dense1')
     dense_output1 = dense_layer1(state_input)
-    dense_layer2 = Dense(12, activation='relu', kernel_initializer='he_uniform', name='dense2')
+    dense_layer2 = Dense(50, activation='relu', kernel_initializer='he_uniform', name='dense2')
     dense_output2 = dense_layer2(dense_output1)
     dense_layer3 = Dense(1, kernel_initializer='he_uniform', name='dense3')
-    dense_output3 = dense_layer3(dense_output2)
+    dense_output3 = dense_layer3(dense_output1)
     return Model(inputs=state_input, outputs=dense_output3)
 
 def last_n_reward_average(n, game_rewards):
@@ -65,8 +65,8 @@ def train(state, action, reward, done, new_state):
     advantages = np.zeros(shape=(1, n_actions))
     target = np.zeros(shape=(1, 1))
 
-    current_value = critic_model.predict(state, batch_size=1)[0]
-    next_value = critic_model.predict(new_state, batch_size=1)[0]
+    current_value = critic_model.predict(state, batch_size=1)
+    next_value = critic_model.predict(new_state, batch_size=1)
 
     if done:
         advantages[0][action] = reward - current_value
