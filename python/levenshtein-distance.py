@@ -1,7 +1,7 @@
 import numpy as np
 
 def replace_cost(source_char, target_char):
-    return source_char != target_char
+    return source_char.lower() != target_char.lower()
 
 
 def calculate_distance(source, target):
@@ -23,6 +23,7 @@ def calculate_accuracy(source, target):
     target_length = len(target)
     return (target_length - distance) / target_length
 
+
 assert calculate_distance('sp', 'sp') == 0
 assert calculate_distance('spot', 'spat') == 1
 assert calculate_distance('abcde', 'e') == 4
@@ -33,16 +34,31 @@ assert calculate_distance('weekend', 'week end') == 1
 
 import pandas as pd
 
-file_path = '/Users/msun/Documents/overproof.xlsx'
+file_path = '/Users/msun/Documents/oral-history/oral-history.xlsx'
 df = pd.read_excel(file_path, sheet_name='Sheet1')
+n_characters = 0
+n_accurate_char_before = 0
+n_accurate_char_after = 0
 for index, data in df.iterrows():
-    if index <= 6:
+    if index <= 2:
         before_correction = ' '.join(data[0].split())
         after_correction = ' '.join(data[1].split())
         ground_truths = ' '.join(data[2].split())
-        before_accuracy = calculate_accuracy(before_correction, ground_truths)
-        after_accuracy = calculate_accuracy(after_correction, ground_truths)
-        print('Before correction: {:.4f}, After correction: {:.4f}'.format(before_accuracy, after_accuracy))
+        ground_truths_length = len(ground_truths)
+        n_characters += ground_truths_length
+        before_distance = calculate_distance(before_correction, ground_truths)
+        before_accurate_chars = ground_truths_length - before_distance
+        before_accuracy = before_accurate_chars / ground_truths_length
+        n_accurate_char_before += before_accurate_chars
+        after_distance = calculate_distance(after_correction, ground_truths)
+        after_accurate_chars = ground_truths_length - after_distance
+        after_accuracy = after_accurate_chars / ground_truths_length
+        n_accurate_char_after += after_accurate_chars
+        print('{:.2f}%, {:.2f}%'.format(before_accuracy * 100, after_accuracy * 100))
+
+total_before_accuracy = n_accurate_char_before / n_characters
+total_after_accuracy = n_accurate_char_after / n_characters
+print('Total before accuracy = {:.4f} Total after accuracy = {:.4f}'.format(total_before_accuracy, total_after_accuracy))
 
 
 source1='''
