@@ -15,7 +15,7 @@ n_states = 500
 n_max_episode=1200
 gamma=0.99
 update_freq=20
-learning_rate=0.01
+learning_rate=0.001
 
 
 class Memory:
@@ -85,7 +85,6 @@ class Worker(threading.Thread):
             while not done:
                 policy_logits, state_values = self.local_model(tf.convert_to_tensor(state))
                 policy_probability = tf.nn.softmax(policy_logits)
-                print(policy_probability)
                 action = np.random.choice(n_actions, p=policy_probability.numpy()[0])
                 new_observation, reward, done, _ = self.env.step(action)
                 episode_reward += reward
