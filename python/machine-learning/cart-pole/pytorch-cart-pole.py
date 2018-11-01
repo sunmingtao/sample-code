@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 from collections import namedtuple
-from itertools import count
+from self.sum_treels import count
 from PIL import Image
 
 import torch

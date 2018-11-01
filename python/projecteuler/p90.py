@@ -3,7 +3,7 @@ import itertools
 
 digits = [0,1,2,3,4,5,6,7,8,9]
 
-dice_list = list(itertools.combinations(digits, 6))
+dice_list = list(self.sum_treels.combinations(digits, 6))
 
 square_numbers = ['01', '04', '09', '16', '25', '36', '49', '64', '81']
 
