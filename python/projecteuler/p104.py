@@ -12,11 +12,6 @@ b = 1
 n = 3
 while n < 10000000:
     f = a + b
-    '''
-    if is_pandigital(str_f[0:9]) and is_pandigital(str_f[-9:]):
-        print (n, f)
-        break
-    '''
     if is_pandigital(str(f % (10 ** 9))) and is_pandigital(str(f)[0:9]):
         print (n, f)
         break
@@ -25,6 +20,5 @@ while n < 10000000:
     b = f
     if n % 10000 == 0:
         print('Check n=', n)
-
 
 
