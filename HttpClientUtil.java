@@ -1,3 +1,18 @@
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.jboss.logging.Logger;
+
 public class HttpClientUtil {
     
     protected static final Logger logger = Logger.getLogger(HttpClientUtil.class);
