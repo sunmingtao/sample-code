@@ -1,4 +1,4 @@
-Vanilla Spring MVC/Spring Security
+# Vanilla Spring MVC/Spring Security
      
      mvn -Djetty.port=8888 jetty:run
      
