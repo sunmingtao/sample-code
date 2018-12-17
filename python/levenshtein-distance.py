@@ -35,7 +35,7 @@ assert calculate_distance('weekend', 'week end') == 1
 import pandas as pd
 
 file_path = '/Users/msun/Documents/oral-history/oral-history.xlsx'
-df = pd.read_excel(file_path, sheet_name='Sheet1')
+df = pd.read_excel(file_path, sheet_name='Sheet2')
 n_characters = 0
 n_accurate_char_before = 0
 n_accurate_char_after = 0

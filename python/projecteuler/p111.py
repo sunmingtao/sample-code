@@ -50,7 +50,7 @@ assert add_item_to_permutation_list('1', [['1','1']]) == [['1','1', '1']]
 assert add_item_to_permutation_list('2', [['1','1']]) == [['2', '1','1'], ['1', '2', '1'], ['1', '1', '2']]
 
 
-def no_repeat_permutation(items):
+def repeat_permutation(items):
     item_list = list(items)
     item_list.sort()
     permutation_list = []
@@ -59,13 +59,13 @@ def no_repeat_permutation(items):
     return permutation_list
 
 
-assert no_repeat_permutation('1') == [['1']]
-assert no_repeat_permutation('11') == [['1','1']]
-assert no_repeat_permutation('12') == [['2','1'], ['1', '2']]
-assert no_repeat_permutation('112') == [['2','1','1'], ['1','2','1'], ['1','1','2']]
-assert no_repeat_permutation('1122') == [['2', '2', '1','1'], ['2', '1', '2', '1'], ['2', '1', '1', '2'], ['1','2', '2', '1'], ['1','2','1', '2',], ['1','1','2','2']]
-assert no_repeat_permutation('2121') == [['2', '2', '1','1'], ['2', '1', '2', '1'], ['2', '1', '1', '2'], ['1','2', '2', '1'], ['1','2','1', '2',], ['1','1','2','2']]
-assert len(no_repeat_permutation('apple')) == 60
+assert repeat_permutation('1') == [['1']]
+assert repeat_permutation('11') == [['1','1']]
+assert repeat_permutation('12') == [['2','1'], ['1', '2']]
+assert repeat_permutation('112') == [['2','1','1'], ['1','2','1'], ['1','1','2']]
+assert repeat_permutation('1122') == [['2', '2', '1','1'], ['2', '1', '2', '1'], ['2', '1', '1', '2'], ['1','2', '2', '1'], ['1','2','1', '2',], ['1','1','2','2']]
+assert repeat_permutation('2121') == [['2', '2', '1','1'], ['2', '1', '2', '1'], ['2', '1', '1', '2'], ['1','2', '2', '1'], ['1','2','1', '2',], ['1','1','2','2']]
+assert len(repeat_permutation('apple')) == 60
 
 
 def get_repeat_digit_candidate_list(length, repeated_digits, test_length):
@@ -120,7 +120,7 @@ def mns(n, d):
         prime_list = []
         base_candidate_list = get_repeat_digit_candidate_list(n, d, test_length)
         for base_candidate in base_candidate_list:
-            permutated_candidate_list = no_repeat_permutation(base_candidate)
+            permutated_candidate_list = repeat_permutation(base_candidate)
             for permutated_candidate in permutated_candidate_list:
                 permutated_candidate = ''.join(permutated_candidate)
                 if permutated_candidate[0] != '0':
