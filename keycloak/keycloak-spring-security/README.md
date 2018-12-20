@@ -11,9 +11,9 @@ This project demonstrates how to convert an [Vanilla Spring MVC/Spring security]
 ## New dependencies added to pom.xml
 
      <dependency>
-          <groupId>org.keycloak</groupId>
-		<artifactId>keycloak-spring-security-adapter</artifactId>
-		<version>${keycloak.version}</version>
+         <groupId>org.keycloak</groupId>
+	 <artifactId>keycloak-spring-security-adapter</artifactId>
+	 <version>${keycloak.version}</version>
      </dependency>
 		
      <dependency>
