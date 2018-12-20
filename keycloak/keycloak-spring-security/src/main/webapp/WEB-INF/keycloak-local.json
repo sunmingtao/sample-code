@@ -1,7 +1,7 @@
 {
   "realm": "shire",
   "auth-server-url": "http://localhost:8080/auth",
-  "ssl-required": "none",
+  "ssl-required": "external",
   "resource": "jetty",
   "public-client": true,
   "confidential-port": 0
