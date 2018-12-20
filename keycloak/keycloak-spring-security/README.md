@@ -12,9 +12,9 @@ Welcome page
  
      http://localhost:8888/welcome
      
-The contents of keycloak-local.json come from the KeyCloak admin screen.
+The contents of keycloak-local.json are copied from the KeyCloak admin screen.
  
-Clients -> Click <Client id> -> Installation -> Format option, choose 'KeyCloak OIDC Json'
+Clients -> Click <Client id> -> Installation -> Format option, choose 'KeyCloak OIDC JSON'
      
 ![Source of keycloak.json](images/keycloak-json-contents.png)
      
