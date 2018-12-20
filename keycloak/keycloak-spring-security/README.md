@@ -12,12 +12,12 @@ This project demonstrates how to convert an [Vanilla Spring MVC/Spring security]
 
      <dependency>
          <groupId>org.keycloak</groupId>
-	 <artifactId>keycloak-spring-security-adapter</artifactId>
-	 <version>${keycloak.version}</version>
+         <artifactId>keycloak-spring-security-adapter</artifactId>
+         <version>${keycloak.version}</version>
      </dependency>
 		
      <dependency>
-          <groupId>org.keycloak</groupId>
+	  <groupId>org.keycloak</groupId>
           <artifactId>keycloak-admin-client</artifactId>
           <version>${keycloak.version}</version>
      </dependency>
