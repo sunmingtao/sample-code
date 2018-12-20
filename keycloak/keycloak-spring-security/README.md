@@ -40,15 +40,23 @@ This project demonstrates how to convert an [Vanilla Spring MVC/Spring security]
           <version>${resteasy.version}</version>
      </dependency>
 
-Start the server
+## Other changes
+
+* KeycloakAuthenticationProvider2.java
+* keycloak-spring-security.xml
+* keycloak-local.json, see below for details
+
+## Deploy
+
+### Start the server
      
      mvn -Djetty.port=8888 -Denv=local jetty:run
      
-Admin page
+### Admin page
 
      http://localhost:8888/admin
      
-Welcome page
+### Welcome page
  
      http://localhost:8888/welcome
      
