@@ -16,7 +16,7 @@
     </authentication-manager>
 
     <beans:bean id="adapterDeploymentContext" class="org.keycloak.adapters.springsecurity.AdapterDeploymentContextFactoryBean">
-        <beans:constructor-arg value="/WEB-INF/keycloak.json" />
+        <beans:constructor-arg value="/WEB-INF/keycloak-${env}.json" />
     </beans:bean>
     
     <beans:bean id="keycloakAuthenticationEntryPoint" class="org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationEntryPoint">

@@ -6,17 +6,9 @@
     <h1>Message : ${message}</h1>
 
     <c:if test="${pageContext.request.userPrincipal.name != null}">
-        <h2>Welcome : ${pageContext.request.userPrincipal.name} 
+        <h2>Welcome : ${pageContext.request.userPrincipal.principal.keycloakSecurityContext.idToken.preferredUsername} 
            | <a href="<c:url value="/logout" />" > Logout</a></h2>  
           
-           <!--  
-           <h2>Welcome : ${pageContext.request.userPrincipal.name} </h2>
-           <c:url var="logoutUrl" value="/logout" />
-             <form action="${logoutUrl}" id="logout" method="post">
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-            </form>
-            <a href="#" onclick="document.getElementById('logout').submit();">Logout</a>
-            -->
     </c:if>
 </body>
 </html>
