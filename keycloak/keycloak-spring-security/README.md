@@ -17,27 +17,27 @@ This project demonstrates how to convert an [Vanilla Spring MVC/Spring security]
      </dependency>
 		
      <dependency>
-	  <groupId>org.keycloak</groupId>
-          <artifactId>keycloak-admin-client</artifactId>
-          <version>${keycloak.version}</version>
+         <groupId>org.keycloak</groupId>
+         <artifactId>keycloak-admin-client</artifactId>
+         <version>${keycloak.version}</version>
      </dependency>
         
      <dependency>
-          <groupId>org.jboss.resteasy</groupId>
-          <artifactId>resteasy-jaxrs</artifactId>
-          <version>${resteasy.version}</version>
+         <groupId>org.jboss.resteasy</groupId>
+         <artifactId>resteasy-jaxrs</artifactId>
+         <version>${resteasy.version}</version>
      </dependency>
 		
      <dependency>
-          <groupId>org.jboss.resteasy</groupId>
-          <artifactId>resteasy-client</artifactId>
-          <version>${resteasy.version}</version>
+         <groupId>org.jboss.resteasy</groupId>
+         <artifactId>resteasy-client</artifactId>
+         <version>${resteasy.version}</version>
      </dependency>
         
      <dependency>
-          <groupId>org.jboss.resteasy</groupId>
-          <artifactId>resteasy-jackson2-provider</artifactId>
-          <version>${resteasy.version}</version>
+         <groupId>org.jboss.resteasy</groupId>
+         <artifactId>resteasy-jackson2-provider</artifactId>
+         <version>${resteasy.version}</version>
      </dependency>
 
 ## Other changes
