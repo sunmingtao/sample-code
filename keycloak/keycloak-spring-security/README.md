@@ -2,7 +2,7 @@
 
 Based on [Vanilla Spring MVC/Spring security](../vanilla-spring-security)
      
-     mvn -Djetty.port=8888 jetty:run
+     mvn -Djetty.port=8888 -Denv=local jetty:run
      
 Admin page
 
