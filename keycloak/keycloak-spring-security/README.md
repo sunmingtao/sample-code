@@ -11,3 +11,11 @@ Admin page
  Welcome page
  
      http://localhost:8888/welcome
+     
+ The contents of keycloak-local.json come from the KeyCloak admin screen.
+ 
+ Clients -> Click <Client id> -> Installation -> Format option, choose 'KeyCloak OIDC Json'
+     
+ <pic>
+     
+ Refer to [KeyCloak documentation](https://www.keycloak.org/docs/latest/authorization_services/index.html#_resource_server_create_client) for how to create a client. 
