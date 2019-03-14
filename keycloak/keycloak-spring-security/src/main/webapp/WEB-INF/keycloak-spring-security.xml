@@ -24,7 +24,7 @@
     </beans:bean>
     <beans:bean id="keycloakAuthenticationProvider" class="org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider2" />
     <beans:bean id="keycloakPreAuthActionsFilter" class="org.keycloak.adapters.springsecurity.filter.KeycloakPreAuthActionsFilter" />
-    <beans:bean id="keycloakAuthenticationProcessingFilter" class="org.keycloak.adapters.springsecurity.filter.KeycloakAuthenticationProcessingFilter">
+    <beans:bean id="keycloakAuthenticationProcessingFilter" class="org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProcessingFilter2">
         <beans:constructor-arg name="authenticationManager" ref="authenticationManager" />
     </beans:bean>
     
@@ -48,13 +48,12 @@
         </beans:property>
     </beans:bean>
     
-    <http auto-config="false" entry-point-ref="keycloakAuthenticationEntryPoint">
-        <custom-filter ref="keycloakPreAuthActionsFilter" before="LOGOUT_FILTER" />
-        <custom-filter ref="keycloakAuthenticationProcessingFilter" before="FORM_LOGIN_FILTER" />
+    <http auto-config="false" use-expressions="true" request-matcher="regex" entry-point-ref="keycloakAuthenticationEntryPoint">
+        <custom-filter before="LOGOUT_FILTER" ref="keycloakPreAuthActionsFilter"  />
+        <custom-filter before="FORM_LOGIN_FILTER" ref="keycloakAuthenticationProcessingFilter"  />
         <!-- <intercept-url pattern="/admin**" access="hasRole('banjo:admin')" />  -->
-        <intercept-url pattern="/admin**" access="hasAnyRole('ROLE_SUPERMAN')" /> 
-        <custom-filter ref="logoutFilter" position="LOGOUT_FILTER" />
-        <csrf disabled="true"/>
+        <intercept-url pattern="^/admin*" access="isAuthenticated()" /> 
+        <custom-filter position="LOGOUT_FILTER" ref="logoutFilter" />
     </http>
     
 </beans:beans>

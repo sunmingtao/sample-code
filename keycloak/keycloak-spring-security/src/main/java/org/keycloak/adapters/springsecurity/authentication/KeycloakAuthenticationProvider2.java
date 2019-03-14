@@ -45,11 +45,13 @@ public class KeycloakAuthenticationProvider2 implements AuthenticationProvider {
             grantedAuthorities.add(new KeycloakRole(role));
         }
         Collection<?> authorities = mapAuthorities(grantedAuthorities);
+        System.out.println("User roles: ");
         authorities.stream().forEach(System.out::println);
         KeycloakPrincipal<KeycloakSecurityContext> principal = (KeycloakPrincipal<KeycloakSecurityContext>)token.getAccount().getPrincipal();
         System.out.println("PreferredUserName: "+principal.getKeycloakSecurityContext().getIdToken().getPreferredUsername());
         System.out.println("Token details:"+token.getDetails());
         Keycloak kc = Keycloak.getInstance("http://localhost:8080/auth", "master", "admin", "admin", "admin-cli");
+        System.out.println("User groups: ");
         kc.realms().realm("shire").users().get(principal.getName()).groups().stream().forEach(item -> System.out.println(item.getName()));
         System.out.println("Env: "+env);
         try {
