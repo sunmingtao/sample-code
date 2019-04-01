@@ -1,6 +1,7 @@
 package au.gov.nla.keycloak;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.MessageFormat;
 
 import javax.ws.rs.client.ClientRequestContext;
@@ -8,10 +9,15 @@ import javax.ws.rs.client.ClientRequestFilter;
 
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.OAuth2Constants;
+import org.keycloak.TokenVerifier;
+import org.keycloak.adapters.KeycloakDeployment;
+import org.keycloak.adapters.KeycloakDeploymentBuilder;
+import org.keycloak.adapters.rotation.AdapterTokenVerifier;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.authorization.client.AuthzClient;
 import org.keycloak.authorization.client.util.HttpResponseException;
+import org.keycloak.representations.AccessToken;
 
 public class DirectGrant {
     
@@ -71,13 +77,13 @@ public class DirectGrant {
         }
     }
     
-//    private static String getUserId(String accessTokenString) throws Exception{
-//        InputStream configStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("keycloak.json");
-//        KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(configStream);
-//        TokenVerifier<AccessToken> tokenVerifier = AdapterTokenVerifier.createVerifier(accessTokenString, deployment, false, AccessToken.class);
-//        AccessToken accessToken = tokenVerifier.verify().getToken();
-//        return accessToken.getSubject();
-//    }
+    private static String getUserId(String accessTokenString) throws Exception{
+        InputStream configStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("keycloak.json");
+        KeycloakDeployment deployment = KeycloakDeploymentBuilder.build(configStream);
+        TokenVerifier<AccessToken> tokenVerifier = AdapterTokenVerifier.createVerifier(accessTokenString, deployment, false, AccessToken.class);
+        AccessToken accessToken = tokenVerifier.verify().getToken();
+        return accessToken.getSubject();
+    }
 
     
     private static Keycloak getKeyCloakInstance0() {
