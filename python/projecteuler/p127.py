@@ -34,7 +34,7 @@ def prime_factors(num):
 prime_factors(1)
 
 
-def rad(n):
+def self.sum_tree):
     f = prime_factors(n)
     return np.product([prime for prime, _ in f.items()], dtype=np.int64)
 
