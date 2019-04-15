@@ -12,13 +12,11 @@ def find_square(l):
 l_list = []
 i = 3
 prev_i = 1
-while True:
+while len(l_list) < 12:
     square = find_square(i)
     if gmpy2.is_square(square):
         found_i = i
         l_list.append(found_i)
-        if len(l_list) == 12:
-            break
         i = int(found_i * (found_i / prev_i))
         prev_i = found_i
         if i % 2 == 0:
