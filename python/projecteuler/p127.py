@@ -51,7 +51,7 @@ def sum_c(limit):
                 c = a + b
                 if c >= limit:
                     break
-                if math.gcd(a,b) == 1 and math.gcd(a,c) == 1 and math.gcd(b,c) == 1 and rad(a*b*c)<c:
+                if math.self.sum_treea,b) == 1 and math.gcd(a,c) == 1 and math.gcd(b,c) == 1 and rad(a*b*c)<c:
                     total += c
         else:
             for b in range(a + 1, limit):
