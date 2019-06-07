@@ -39,6 +39,9 @@ def inverse_square_sum(arr):
     return sum(1 / i ** 2 for i in arr)
 
 
+inverse_square_sum([2, 3, 4, 5, 6, 12, 35, 52]) + inverse_square_sum([60, 63, 70, 72])
+
+
 def find_prod(arr):
     p = 1
     for i in arr:
@@ -87,9 +90,9 @@ def update_working_arr(arr, arr_inverse_square_sum):
                         temp_arr[-1] = CANDIDATES[CANDIDATES.index(temp_arr[-1]) + 1]
                         return update_working_arr(temp_arr, arr_inverse_square_sum - inverse_square(arr[-1]) - inverse_square(old_temp_arr_value) + inverse_square(temp_arr[-1]))
                 else:
-                    old_temp_arr_value = temp_arr[-1]
-                    temp_arr[-1] = CANDIDATES[CANDIDATES.index(temp_arr[-1]) + 1]
-                    return update_working_arr(temp_arr, arr_inverse_square_sum - inverse_square(old_temp_arr_value) + inverse_square(temp_arr[-1]))
+                    print ('h', temp_arr, inverse_square_sum(CANDIDATES[temp_index:]))
+                    temp_arr.append(CANDIDATES[temp_index])
+                    return temp_arr, temp_arr_inverse_square_sum
             else:
                 temp_arr.append(CANDIDATES[temp_index])
                 return temp_arr, temp_arr_inverse_square_sum
