@@ -20,7 +20,7 @@
         <junit.version>4.8</junit.version>
         <rest.ws.client.api.version>0.1</rest.ws.client.api.version>
         <common.lang.version>2.4</common.lang.version>
-        <common.beanutils.version>1.8.3</common.beanutils.version>
+        <common.beanutils.version>1.9.2</common.beanutils.version>
         <org.codehaus.jackson-version>1.9.11</org.codehaus.jackson-version>
     </properties>
 
