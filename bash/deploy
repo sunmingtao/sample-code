@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ -z $MY_BIN ]; then
+    echo 'Evn MY_BIN is not set'
+    exit 1
+fi
+
+/bin/cp * $MY_BIN
