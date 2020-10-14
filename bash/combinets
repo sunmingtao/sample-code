@@ -1,0 +1,11 @@
+#!/bin/bash
+
+SAVEIFS=$IFS
+IFS=$(echo -en "\n\b") 
+
+for folder in $(ls 2>/dev/null) # replace "1 720p" with "1"
+do
+	index=$(echo $folder | sed 's/\(.*\) .*/\1/g')
+	cat "$folder"/*.ts > $(printf '%02d\n' $index).ts
+done
+IFS=$SAVEIFS

@@ -68,3 +68,20 @@ for gamma in [.3, .1]:
 
         print('Gamma={}, Learning Rate={}, Average Average={:.3f}'.format(gamma, learning_rate, total_avg / n_try))
 
+
+avg_reward = []
+for episode in range(100):
+    observation = env.reset()
+    step = 0
+    episode_reward = 0
+    for step in range(1000):
+        observation, reward, done, _ = env.step(env.action_space.sample())
+        episode_reward += reward
+        if done:
+            print('Episode {}, step={}, final reward={}, episode reward={}'.format(episode, step, reward, episode_reward))
+            break
+    avg_reward.append(episode_reward)
+
+print('avg reward ={}'.format(sum(avg_reward) / len(avg_reward)))
+
+

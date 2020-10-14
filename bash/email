@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]; then
+    echo "email subject text"
+    exit 1
+fi
+
+mailBody="/dev/null"
+
+if [ -n "$2" ]; then
+    mailBody=$2
+fi
+
+mail -s "$1" $MY_EMAIL < $mailBody

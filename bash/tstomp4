@@ -1,0 +1,14 @@
+#!/bin/bash
+
+SAVEIFS=$IFS
+IFS=$(echo -en "\n\b") 
+
+for file in $(ls *.ts 2>/dev/null)
+do
+	prefix=$(echo $file | sed 's/\([^.]*\).*/\1/g')
+	echo "Run command: ffmpeg -y -i $file -copyts -map 0 -c copy -ignore_unknown $prefix-fixed.ts"
+	ffmpeg -y -i $file -copyts -map 0 -c copy -ignore_unknown $prefix-fixed.ts
+	echo "Run command: ffmpeg -i $prefix-fixed.ts -c:v libx264 -c:a aac $prefix.mp4"
+	ffmpeg -i $prefix-fixed.ts -c:v libx264 -c:a aac $prefix.mp4
+done
+IFS=$SAVEIFS

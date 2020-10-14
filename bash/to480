@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]; then
+    echo "to480 inputFile"
+    exit 1
+fi
+
+inputFile=$1
+noExtension=${inputFile%%.*}
+
+echo "Compress $inputFile" >> $noExtension.log
+
+startTime=$(date)
+echo "Start time $startTime" >> $noExtension.log
+ffmpeg -i $inputFile -b:v 1.5M -s 854x480 -preset ultrafast ${noExtension}-480.mp4
+
+if [ $? -eq 0 ]; then
+    endTime=$(date)
+    echo "End time $endTime" >> $noExtension.log
+    email "Compress is successful" $noExtension.log 
+else
+	email "Compress is successful" $noExtension.log
+fi
+
+rm $noExtension.log
