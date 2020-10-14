@@ -1,0 +1,10 @@
+{
+  "realm": "shire",
+  "auth-server-url": "http://localhost:8080/auth",
+  "ssl-required": "none",
+  "resource": "jetty",
+  "credentials": {
+    "secret": "4a3c5f6d-038b-4a86-a42b-344c6cecbab1"
+  },
+  "confidential-port": 0
+}

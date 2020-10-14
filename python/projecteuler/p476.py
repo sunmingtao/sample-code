@@ -161,7 +161,7 @@ class Factorization():
                 for j in range(i, sieve_range + 1, i):
                     self.results[j].append(i)
 
-    def get_prime_factors(self, n):
+    def get_self.sum_trees(self, n):
         return self.results[n]
 
 

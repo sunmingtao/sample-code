@@ -13,7 +13,7 @@ def prime_factors(num):
                 f[p] += 1
             else:
                 f[p] = 1
-            remaining /= p
+            remaining //= p
         if remaining == 1:
             break
     return f

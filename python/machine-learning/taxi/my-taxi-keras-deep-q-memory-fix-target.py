@@ -8,6 +8,7 @@ from keras.optimizers import Adam
 from tensorflow.losses import huber_loss
 import math
 from collections import deque
+import time
 import matplotlib.pyplot as plt
 
 learning_rate = 0.001
@@ -91,6 +92,7 @@ model.compile(loss=huber_loss, optimizer=Adam(lr=learning_rate))
 best_reward = -math.inf
 episode_rewards = []
 total_step = 0
+start_time = time.time()
 for episode in range(n_max_episodes):
     observation = env.reset()
     state = preprocess(observation)
@@ -151,11 +153,11 @@ for episode in range(n_max_episodes):
     episode_rewards.append(episode_reward)
     print('Episode {} Reward={} Epsilon={:.4f}'.format(episode, episode_reward, epsilon))
 print('Best reward is {}'.format(best_reward))
-
+print('Training lasted {}'.format(time.time() - start_time))
 
 
 plt.plot(episode_rewards)
-plt.title('Q memory with fixed target')
+plt.title('Q memory with fixed target. learning rate=0.001')
 plt.xlabel('Episode')
 plt.ylabel('Episode reward')
 plt.show()

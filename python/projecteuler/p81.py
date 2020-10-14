@@ -1,5 +1,6 @@
 import numpy as np
 
+
 size = 80
 
 text_file = open("p81_2.txt", "r")

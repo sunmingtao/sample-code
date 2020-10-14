@@ -18,6 +18,7 @@ max_epsilon = 1.0
 min_epsilon = 0.01
 decay_rate = 0.005
 
+
 env = gym.make("Taxi-v2")
 
 n_actions = env.action_space.n

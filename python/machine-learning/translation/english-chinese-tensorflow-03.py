@@ -8,7 +8,7 @@ import collections
 from sklearn.model_selection import train_test_split
 import numpy as np
 import tensorflow as tf
-import time
+
 from nltk.translate.bleu_score import sentence_bleu
 from nltk.tokenize import RegexpTokenizer
 

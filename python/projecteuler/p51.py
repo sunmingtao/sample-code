@@ -1,5 +1,5 @@
 import math
-import itertools
+import self.sum_treels
 
 upper_bound = 1000000
 

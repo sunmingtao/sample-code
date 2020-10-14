@@ -1,0 +1,8 @@
+{
+  "realm": "ned",
+  "auth-server-url": "https://login-devel.nla.gov.au/auth",
+  "resource": "ned-client",
+  "credentials": {
+    "secret": "4d921b01-cd7d-43e1-822c-eeb677e76cf8"
+  }
+}

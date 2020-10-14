@@ -179,7 +179,7 @@ Based on Run 9, change learning rate from 0.001 to 0.01
 
 Based on Run 10, change learning rate from 0.001 to 0.01
 
-Oberservation:
+Observation:
 
 The result is abysmal. Even worse than the no memory version.  
 
@@ -195,8 +195,160 @@ Based on Run 11, change learning rate from 0.01 to 0.0005
 
 Based on Run 12, change learning rate from 0.01 to 0.0005
 
-Oberservation:
+Observation:
 
 Surprisingly, the result is far worse than learning rate = 0.001. It seems the agent would forget what it has learned for one episode and quickly became wise again. 
 
 ![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-14.png)
+
+## 2018.9.17
+
+### my-taxi-keras-double-dqn Run 15
+
+Based on my-taxi-keras-deep-q-memory-fixed-target, implemented double dqn 
+
+* use DQN network to select what is the best action to take for the next state (the action with the highest Q value).
+* use target network to calculate the target Q value of taking that action at the next state.
+
+learning rate=0.001
+
+Observation
+
+Doesn't seem to improve from fixed target
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-15.png)
+
+### my-taxi-keras-dueling-dqn Run 16
+
+Based on my-taxi-keras-double-dqn, implemented dueling dqn
+
+* one stream estimates the state value V(s)
+* one stream estimates the advantage for each action A(s,a)
+
+Observation
+
+Seems to reduce the variance compared to my-taxi-keras-double-dqn. But it's not definitive. 
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-16.png)
+
+## 2018.9.18
+
+### my-taxi-keras-dueling-dqn-v2 Run 17
+
+Change n_max_steps from 200 to 199. When number of steps reaches 200, the environment stops the game and sets Done to True. But Done shouldn't be True in this scenario. Therefore reduce the n_max_steps so that this scenario never occurs. 
+
+Observation:
+
+It doesn't seem to improve. 
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-17.png)
+
+## 2018.9.19
+
+### my-taxi-keras-dueling-dqn-v3 Run 18
+
+* Return loss as an output to be more flexible
+* Define huber_loss function rather than use tensorflow's function
+* Change n_max_steps back to 200
+
+Observation: 
+
+OK result
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-18.png)
+
+## 2018.9.20
+
+### my-taxi-keras-dueling-dqn-v2 Run 19
+
+* Just a rerun to check confirm huber loss
+
+Observation:
+
+Huberloss doesn't seem to work. Maybe the previous run just got lucky.
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-19.png)
+
+### my-taxi-keras-dueling-dqn-v3 Run 20
+
+* Change huberloss to mse
+
+Observation:
+
+A lot better. 
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-20.png)
+
+### my-taxi-keras-dueling-dqn-v4 Run 21
+
+* Based on previous run, change memory from dequeue to ring style
+
+Observation:
+
+Same as previous run
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-21.png)
+
+### my-taxi-keras-dueling-dqn-v4 Run 22
+
+* Memory capacity = 5000
+
+Observation:
+
+Same as previous run
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-22.png)
+
+### my-taxi-keras-dueling-dqn-v4 Run 23
+
+* Memory capacity = 50000
+
+Observation:
+
+Same as previous run
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-23.png)
+
+### my-taxi-keras-priority-replay Run 24
+
+* Select sample based on priority  (the higher the priority, the greater chance it gets selected)
+* Importance weights not applied
+* memory_capacity = 10000
+* n_target_model_update_every_steps = 1000
+
+Observation
+
+I just realised runs on the same code can produce very different result. So I am running 3 times for each run now.
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-24-1.png)
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-24-2.png)
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-24-3.png)
+
+### my-taxi-keras-priority-replay Run 25
+
+* n_target_model_update_every_steps = 1000
+* memory capacity = 50000
+* n_max_steps = 198
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-25-1.png)
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-25-2.png)
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-25-3.png)
+
+### my-taxi-keras-priority-replay Run 26
+
+* Add importance weights
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-26-1.png)
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-26-2.png)
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-26-3.png)
+
+
+## 2018.9.20
+
+### my-taxi-keras-n-steps Run 27
+
+* Implement n-steps
+* n_max_steps = 201
+
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-27-1.png)
+![alt text](https://github.com/sunmingtao/sample-code/blob/master/python/machine-learning/taxi/taxi-27-2.png)
