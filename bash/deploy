@@ -5,4 +5,4 @@ if [ -z $MY_BIN ]; then
     exit 1
 fi
 
-/bin/cp * $MY_BIN
+sudo /bin/cp * $MY_BIN
