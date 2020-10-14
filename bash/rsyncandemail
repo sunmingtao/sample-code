@@ -1,0 +1,12 @@
+#!/bin/bash
+
+function usage() {
+    echo "Usage: $0 source destination"
+    exit 1
+}
+
+[ $# -lt 2 ] && usage
+
+rsync -vz $@
+
+[ $? -eq 0 ] && email "resync is successful" || email "rsync is unsuccessful"
