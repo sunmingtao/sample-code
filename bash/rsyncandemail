@@ -7,6 +7,6 @@ function usage() {
 
 [ $# -lt 2 ] && usage
 
-rsync -vz $@
+sudo rsync -vz $@
 
 [ $? -eq 0 ] && email "resync is successful" || email "rsync is unsuccessful"
