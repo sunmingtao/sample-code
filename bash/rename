@@ -1,0 +1,29 @@
+#!/bin/bash
+
+SAVEIFS=$IFS
+IFS=$(echo -en "\n\b")
+# By default, For loop uses $IFS variable to determine what the field separators are.
+# By default $IFS is set to the space character.
+
+extension=mp4
+while getopts e:d flag
+do
+	case "${flag}" in
+	    e) extension=${OPTARG};;
+	    d) dryrun=true
+	esac
+done
+echo "Extension: $extension";
+echo "Dry run: $dryrun";
+
+index=1
+for i in $(ls *.$extension 2>/dev/null)
+do
+	echo old name: $i, new name: $(printf '%02d\n' $index).$extension
+	if [ "$dryrun" != true ] ; then
+		mv $i $(printf '%02d\n' $index).$extension
+	fi
+	let index=${index}+1
+done
+IFS=$SAVEIFS
+
