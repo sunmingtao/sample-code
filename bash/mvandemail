@@ -10,7 +10,7 @@ function usage() {
 sudo rsync -vz $@
 
 if [ $? -eq 0 ]; then
-    sudo mv ${@:1:$#-1}
+    sudo rm ${@:1:$#-1}
     email "resync is successful"
 else 
     email "rsync is unsuccessful"
