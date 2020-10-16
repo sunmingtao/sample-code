@@ -1,0 +1,17 @@
+#!/bin/bash
+
+function usage() {
+    echo "Usage: $0 source destination"
+    exit 1
+}
+
+[ $# -lt 2 ] && usage
+
+echo "sudo rsync -vz $@"
+
+if [ $? -eq 0 ]; then
+    echo "sudo mv ${@:1:$#-1}"
+    email "resync is successful"
+else 
+    email "rsync is unsuccessful"
+fi
