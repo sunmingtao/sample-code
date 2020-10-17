@@ -5,4 +5,12 @@ if [ -z $MY_BIN ]; then
     exit 1
 fi
 
+if [ -z $MY_DEV ]; then
+    echo 'Evn MY_DEV is not set'
+    exit 1
+fi
+
+cd $MY_DEV/sample-code/bash
+git pull 
 sudo /bin/cp * $MY_BIN
+cd -
