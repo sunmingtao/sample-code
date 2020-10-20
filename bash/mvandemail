@@ -7,7 +7,7 @@ function usage() {
 
 [ $# -lt 2 ] && usage
 
-sudo rsync -vz $@
+sudo rsync --ignore-existing -razv --progress $@
 
 if [ $? -eq 0 ]; then
     rm ${@:1:$#-1}

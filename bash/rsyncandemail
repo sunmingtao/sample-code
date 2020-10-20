@@ -7,6 +7,6 @@ function usage() {
 
 [ $# -lt 2 ] && usage
 
-sudo rsync -vz $@
+sudo rsync --ignore-existing -razv --progress $@
 
 [ $? -eq 0 ] && email "resync is successful" || email "rsync is unsuccessful"
