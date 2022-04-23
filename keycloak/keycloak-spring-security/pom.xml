@@ -15,7 +15,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
         <jdk.version>1.6</jdk.version>
-        <spring.version>5.2.1.RELEASE</spring.version>
+        <spring.version>5.3.19</spring.version>
         <spring.security.version>4.0.4.RELEASE</spring.security.version>
         <jstl.version>1.2</jstl.version>
         <keycloak.version>4.8.3.Final</keycloak.version>
