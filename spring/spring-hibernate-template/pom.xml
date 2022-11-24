@@ -9,7 +9,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<org.springframework.version>3.0.5.RELEASE</org.springframework.version>
-		<org.hibernate.version>3.6.0.Final</org.hibernate.version>
+		<org.hibernate.version>5.3.20.Final</org.hibernate.version>
 		<hsqldb.version>1.8.0.10</hsqldb.version>
 		<jdbc.driver>org.hsqldb.jdbcDriver</jdbc.driver>
 		<jdbc.url>jdbc\:hsqldb\:mem\:mydb</jdbc.url>
