@@ -18,7 +18,7 @@ def parse_string(input_string):
     # Initialize variables to store the 2nd and 4th tokens
     leftOrRight = None
 
-    # Check if there are at least four tokens啊
+    # Check if there are at least four tokens
     if len(tokens) == 5:
         date = tokens[0]
         leftOrRight = tokens[1]
@@ -55,8 +55,10 @@ def get_short_raw(param):
     fileName = date+"_"+param[1]+"_"+param[2]+"_"+param[5]+".mp4"
     return fileName, composite_clip
 
+basePath = "C:/Users/smt/Videos/shortsraw/"
+
 with open('shorts.txt', 'r', encoding='utf-8') as file:
     # Loop through each line in the file
     for line in file:
         fileName, clip_final = get_short_raw(parse_string(line.strip()))
-        clip_final.write_videofile(fileName, codec="libx264")
+        clip_final.write_videofile(basePath + fileName, codec="libx264")

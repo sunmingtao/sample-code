@@ -4,20 +4,19 @@ from embedSubtitle import *
 import time
 from datetime import timedelta
 
-base_file = 'FJL-006~S'
+base_file = 'FOJ-301~S'
 base_folder = 'C:/Users/smt/Downloads/jap/'
 input_video = base_folder + base_file + '.mp4'
 output_video = base_folder + base_file + '_withSub.mp4'
 output_audio = base_folder + base_file + '.mp3'
 srt = base_folder + base_file + '.srt'
 
-start_time = time.time()  # Get the start time
-
-print("Extract audio")
+start_time = time.time()
+print("extract audio")
 extract_audio(input_video, output_audio)
-print("Transcribe video")
-translate_audio(output_audio, "medium", "Japanese", srt)
-# print("Embed subtitle")
+print('Transcibe video')
+translate_audio(output_audio, 'large', 'Japanese', srt)
+
 # add_subtitles_to_video(input_video, srt, output_video)
 
 end_time = time.time()  # Get the end time

@@ -26,7 +26,6 @@ def parse_string(input_string):
 def parse_time(input_string):
     # Split the input string by "-"
     tokens = input_string.split("-")
-
     # Initialize variables to store the first and second tokens
     first_token = None
     second_token = None
