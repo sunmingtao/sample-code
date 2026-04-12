@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bilibli-download"
+version = "0.1.0"
+description = "Collect Bilibili season video links with Playwright and download via BBDown"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "playwright>=1.50.0",
+]
+
+[project.scripts]
+bilibli-download = "bilibli_download.downloader:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
