@@ -75,15 +75,18 @@ python -m bilibli_download
 
 ## Optional configuration
 
+- `BILIBILI_URL`: override the Bilibili season/list URL.
 - `BBDOWN_COMMAND`: override executable used for downloading.
 
-Example:
+Examples:
 
 ```bash
+bilibli-download "https://space.bilibili.com/example/lists/example?type=season"
+bilibli-download --url "https://space.bilibili.com/example/lists/example?type=season"
+BILIBILI_URL="https://space.bilibili.com/example/lists/example?type=season" bilibli-download
 BBDOWN_COMMAND=BBDown bilibli-download
 ```
 
 ## Notes
 
 - By default, Chromium is launched with `headless=False`, so a browser window appears.
-- Update the `URL` constant in `src/bilibli_download/downloader.py` to target another list.
